@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor Feedback — September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f6; --surface:#ffffff; --border:#e2e2e0; --border-strong:#cccccb;
+    --text:#1c1c1b; --text-muted:#5c5c5a; --text-faint:#8c8c89;
+    --accent:#2f5fdb; --accent-soft:#eef2fd;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18181a; --surface:#222224; --border:#38383a; --border-strong:#48484a;
+      --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+      --accent:#7ba3ff; --accent-soft:#20293f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18181a; --surface:#222224; --border:#38383a; --border-strong:#48484a;
+    --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+    --accent:#7ba3ff; --accent-soft:#20293f; color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--bg); color:var(--text); font-family:"Inter",-apple-system,sans-serif; margin:0; padding:32px 20px; line-height:1.5;}
+  .page{max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:28px;}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--accent); letter-spacing:.04em; text-transform:uppercase;}
+  h1{font-size:32px; font-weight:800; margin:6px 0 4px; letter-spacing:-0.01em;}
+  .sub{color:var(--text-muted); font-size:15px; max-width:60ch;}
+  .list{display:flex; flex-direction:column; gap:10px;}
+  a.card{display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; text-decoration:none; color:var(--text); transition:border-color .15s;}
+  a.card:hover{border-color:var(--border-strong);}
+  .name{font-size:17px; font-weight:700;}
+  .meta{font-size:12.5px; color:var(--text-muted); margin-top:2px; font-family:"IBM Plex Mono",monospace;}
+  .arrow{color:var(--text-faint); font-size:18px;}
+  footer{color:var(--text-faint); font-size:12px; text-align:center; padding-top:8px;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div>
+    <div class="eyebrow">Talking Heads · Editor Review System</div>
+    <h1>September 2026 Feedback</h1>
+    <div class="sub">Data-only feedback dashboards per editor, built from Frame.io comment exports and Slack timelines. Sorted by comment volume.</div>
+  </div>
+  <div class="list">
+    <a class="card" href="lokesh.html"><div><div class="name">Lokesh Singh</div><div class="meta">3 videos · 119 comments</div></div><div class="arrow">→</div></a>
+    <a class="card" href="sharan.html"><div><div class="name">Sharan</div><div class="meta">1 video · 77 comments</div></div><div class="arrow">→</div></a>
+    <a class="card" href="anirba.html"><div><div class="name">Anirba Mondal</div><div class="meta">2 videos · 73 comments</div></div><div class="arrow">→</div></a>
+    <a class="card" href="mohit.html"><div><div class="name">Mohit Sajwan</div><div class="meta">1 video · 24 comments</div></div><div class="arrow">→</div></a>
+    <a class="card" href="saiyam.html"><div><div class="name">Saiyam Verma</div><div class="meta">3 videos · 23 comments</div></div><div class="arrow">→</div></a>
+  </div>
+  <footer>Talking Heads · Editor Review System · September 2026</footer>
+</div>
+</body>
+</html>

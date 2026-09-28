@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anirba — September Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f6; --surface:#ffffff; --surface-2:#f1f1ef;
+    --border:#e2e2e0; --border-strong:#cccccb;
+    --text:#1c1c1b; --text-muted:#5c5c5a; --text-faint:#8c8c89;
+    --accent:#2f5fdb; --accent-soft:#eef2fd;
+
+    --stage-assigned:#75756f; --stage-acut:#16847a; --stage-submitted:#7c5cd6;
+    --stage-review:#2f6fd6; --stage-approved:#2f9e57;
+
+    --cat-content:#c9564f; --cat-motion:#7f70c9; --cat-type:#4d7fc4; --cat-layout:#c98f3f;
+    --cat-coord:#2f9488; --cat-color:#bd5a82; --cat-audio:#a8863d; --cat-praise:#469463;
+
+    --v-solid:#2f6fd6; --v-standard:#8c8c89; --v-poor:#8a4a2f;
+    --status-ontime:#2f9e57; --status-delayed:#c07a1e;
+    --gr-green:#22c55e; --gr-yellow:#eab308; --gr-red:#ef4444;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+      --border:#38383a; --border-strong:#48484a;
+      --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+      --accent:#7ba3ff; --accent-soft:#20293f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+    --border:#38383a; --border-strong:#48484a;
+    --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+    --accent:#7ba3ff; --accent-soft:#20293f;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    margin:0; padding-inline:20px; padding-block:32px;
+    line-height:1.5;
+  }
+  .page{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:32px;}
+  .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
+
+  .hdr-eyebrow{font-size:13px; font-weight:600; color:var(--accent); letter-spacing:.04em; text-transform:uppercase;}
+  h1{font-size:32px; font-weight:800; margin:6px 0 16px; letter-spacing:-0.01em;}
+  .hdr-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media (max-width:560px){.hdr-stats{grid-template-columns:1fr;}}
+  .stat{background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--border-strong); border-radius:10px; padding:16px 18px;}
+  .stat .n{font-family:"IBM Plex Mono",monospace; font-size:38px; font-weight:700; line-height:1;}
+  .stat .l{font-size:13px; color:var(--text-muted); margin-top:6px;}
+  .stat.green{border-left-color:var(--gr-green);} .stat.green .n{color:var(--gr-green);}
+  .stat.yellow{border-left-color:var(--gr-yellow);} .stat.yellow .n{color:var(--gr-yellow);}
+  .stat.red{border-left-color:var(--gr-red);} .stat.red .n{color:var(--gr-red);}
+
+  section{display:flex; flex-direction:column; gap:14px;}
+  .section-title{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted);}
+  .month-label{font-size:12.5px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; margin-top:14px;}
+  .month-label:first-child{margin-top:0;}
+
+  .cal-wrap{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:8px;}
+  .cal-dow{font-size:12.5px; font-weight:600; color:var(--text-faint); text-align:center; text-transform:uppercase; letter-spacing:.04em; padding-bottom:4px;}
+  .cal-cell{position:relative; min-height:128px; border-radius:9px; background:var(--surface-2); border:1px solid transparent; padding:8px; display:flex; flex-direction:column; gap:3px;}
+  .cal-cell.empty{background:transparent;}
+  .cal-date{font-family:"IBM Plex Mono",monospace; font-size:13.5px; color:var(--text-faint);}
+  .cal-cell.event{border-color:var(--border);}
+  .cal-chip{font-size:9.5px; font-weight:600; line-height:1.25; padding:2px 5px; border-radius:5px; color:#fff; letter-spacing:.01em;}
+  .cal-cell .tip{
+    display:none; position:absolute; z-index:5; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    width:250px; background:var(--text); color:var(--bg); font-family:"Inter",sans-serif; font-size:12px; line-height:1.4;
+    padding:9px 11px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:left; font-weight:500;
+  }
+  .cal-cell.event:hover .tip{display:block;}
+  .cal-cell.event:hover{border-color:var(--border-strong);}
+  .legend{display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; margin-top:6px; font-size:12.5px; color:var(--text-muted);}
+  @media (max-width:480px){.legend{grid-template-columns:1fr;}}
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .legend-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+  .legend-key{font-size:11.5px; color:var(--text-faint); margin-top:10px;}
+
+  .catbars{display:flex; flex-direction:column; gap:2px;}
+  .catbar{border-top:1px solid var(--border);}
+  .catbar:first-child{border-top:none;}
+  .catbar summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:10px 2px;}
+  .catbar summary::-webkit-details-marker{display:none;}
+  .catbar summary .arrow{font-size:10px; color:var(--text-faint); width:10px; flex-shrink:0; transition:transform .15s;}
+  .catbar[open] summary .arrow{transform:rotate(90deg);}
+  .catbar summary .cb-label{font-size:13.5px; font-weight:600; width:150px; flex-shrink:0; color:var(--cb-c,var(--text));}
+  .catbar summary .cb-track{flex:1; height:8px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+  .catbar summary .cb-fill{height:100%; background:var(--cb-c,var(--accent)); border-radius:4px;}
+  .catbar summary .cb-count{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:13px; width:28px; text-align:right; flex-shrink:0; color:var(--text-muted);}
+  .catbar .cb-body{padding:0 2px 14px 162px; font-size:13.5px; line-height:1.55;}
+  @media (max-width:560px){
+    .catbar summary{flex-wrap:wrap;}
+    .catbar summary .cb-label{width:100%; order:1;}
+    .catbar summary .cb-track{order:2;}
+    .catbar summary .cb-count{order:3;}
+    .catbar .cb-body{padding-left:2px;}
+  }
+  .cb-group{margin-bottom:8px;}
+  .cb-group .cb-video{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); margin-bottom:2px;}
+  .cb-body ul{margin:0; padding-left:16px;}
+  .cb-body li{margin-bottom:3px;}
+  .cb-body li i{color:var(--text-muted); font-style:italic;}
+
+  .video{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .video-hdr{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;}
+  .video-title{font-size:18px; font-weight:700; letter-spacing:-.005em;}
+  .video-client{font-size:12.5px; color:var(--text-muted); margin-top:2px;}
+  .badge{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:5px; border-left:3px solid; letter-spacing:.01em; white-space:nowrap;}
+  .b-standard{color:var(--v-standard); background:var(--surface-2); border-color:var(--v-standard);}
+  .b-none{color:var(--text-faint); background:var(--surface-2); border-color:var(--border-strong);}
+  .b-ontime{color:var(--status-ontime); background:var(--surface-2); border-color:var(--status-ontime);}
+  .b-delayed{color:var(--status-delayed); background:var(--surface-2); border-color:var(--status-delayed);}
+
+  .video-stats{display:flex; gap:24px; margin-top:14px; font-size:13px; color:var(--text-muted); flex-wrap:wrap;}
+  .video-stats b{color:var(--text); font-family:"IBM Plex Mono",monospace; font-weight:600;}
+
+  .timeline{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:7px;}
+  .tl-row{display:flex; gap:12px; font-size:13.5px; align-items:baseline;}
+  .tl-date{font-family:"IBM Plex Mono",monospace; color:var(--text-muted); width:56px; flex-shrink:0;}
+  .tl-label b{font-weight:600;}
+  .tl-label .tl-note{color:var(--text-faint);}
+
+  .video .catbars{margin-top:16px; padding-top:4px; border-top:1px solid var(--border);}
+
+  .flags{display:flex; flex-direction:column; gap:10px;}
+  .flag{display:flex; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; font-size:14px;}
+  .flag .fi{font-family:"IBM Plex Mono",monospace; color:var(--text-faint); flex-shrink:0;}
+
+  .quote-box{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 18px; font-size:14px; line-height:1.6; color:var(--text);}
+
+  footer{color:var(--text-faint); font-size:12px; text-align:center; padding-top:8px;}
+</style>
+
+</head>
+<body>
+<div class="page">
+
+  <div>
+    <div class="hdr-eyebrow">Editor Review — September 2026</div>
+    <h1>Anirba Mondal</h1>
+    <div class="hdr-stats">
+      <div class="stat yellow"><div class="n mono">2</div><div class="l">Videos shipped <span style="color:var(--text-faint)">· target 4/mo</span></div></div>
+      <div class="stat green"><div class="n mono">8</div><div class="l">Total drafts <span style="color:var(--text-faint)">· target ≤8 (A-cut+V1+V2+Final × 2 videos)</span></div></div>
+      <div class="stat"><div class="n mono">73</div><div class="l">Total comments</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-title">August–September at a glance</div>
+    <div class="cal-wrap">
+      <div class="month-label">August 2026</div>
+      <div class="cal-grid">
+        <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+
+        <div class="cal-cell"><div class="cal-date">23</div></div>
+        <div class="cal-cell"><div class="cal-date">24</div></div>
+        <div class="cal-cell"><div class="cal-date">25</div></div>
+        <div class="cal-cell event"><div class="cal-date">26</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned · MBA</div>
+          <div class="tip"><b>$0 MBA</b> assigned (first half), deadline Sep 2.</div></div>
+        <div class="cal-cell"><div class="cal-date">27</div></div>
+        <div class="cal-cell"><div class="cal-date">28</div></div>
+        <div class="cal-cell event"><div class="cal-date">29</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-roll in · MBA</div>
+          <div class="tip">A-roll cut posted (f.io/W3jPQBtZ) — Anirba flags pacing/length concerns himself.</div></div>
+
+        <div class="cal-cell"><div class="cal-date">30</div></div>
+        <div class="cal-cell event"><div class="cal-date">31</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-cut reviewed · MBA</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Handoff · MBA</div>
+          <div class="tip">Trim discussion with Sanket, final comments added. Anirba loops Lokesh in for the second half.</div></div>
+      </div>
+
+      <div class="month-label">September 2026</div>
+      <div class="cal-grid">
+        <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+
+        <div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+        <div class="cal-cell"><div class="cal-date">1</div></div>
+        <div class="cal-cell"><div class="cal-date">2</div></div>
+        <div class="cal-cell event"><div class="cal-date">3</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">Draft in · MBA</div>
+          <div class="cal-chip" style="background:var(--stage-review)">Reviewed · MBA</div>
+          <div class="tip">First-half V1 delivered (f.io/BbLVSn4b), reviewed same evening — 30 comments.</div></div>
+        <div class="cal-cell"><div class="cal-date">4</div></div>
+        <div class="cal-cell event"><div class="cal-date">5</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Live · MBA</div>
+          <div class="tip">Merged full video (with Lokesh's second half) approved and uploaded — 3 days past the Sep 2 deadline.</div></div>
+        <div class="cal-cell"><div class="cal-date">6</div></div>
+        <div class="cal-cell"><div class="cal-date">7</div></div>
+
+        <div class="cal-cell event"><div class="cal-date">8</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned · 3 Keys</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-roll in · 3 Keys</div>
+          <div class="tip"><b>3 Keys to Manifesting</b> assigned, deadline Sep 16. A-roll delivered same day.</div></div>
+        <div class="cal-cell event"><div class="cal-date">9</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-cut reviewed · 3 Keys</div>
+          <div class="tip">"Pure gold... I have high expectations for this one" — plus a CapCut dark-circle/matte-skin pass requested.</div></div>
+        <div class="cal-cell"><div class="cal-date">10</div></div>
+        <div class="cal-cell event"><div class="cal-date">11</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Script sent</div>
+          <div class="tip">Script sent (chased since Sep 10). Per Notion's timeline notes, Anirba also flagged feeling unwell around this date but still delivered on time.</div></div>
+        <div class="cal-cell"><div class="cal-date">12</div></div>
+        <div class="cal-cell"><div class="cal-date">13</div></div>
+        <div class="cal-cell"><div class="cal-date">14</div></div>
+
+        <div class="cal-cell"><div class="cal-date">15</div></div>
+        <div class="cal-cell event"><div class="cal-date">16</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V1 in</div>
+          <div class="tip">V1 delivered (f.io/cGi2kd2p) — exactly on the Sep 16 deadline.</div></div>
+        <div class="cal-cell event"><div class="cal-date">17</div>
+          <div class="cal-chip" style="background:var(--stage-review)">Reviewed</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V2 in</div>
+          <div class="tip">Reviewed — 43 comments → V2 delivered next day (f.io/ERYTxOvn).</div></div>
+        <div class="cal-cell event"><div class="cal-date">18</div>
+          <div class="cal-chip" style="background:var(--stage-review)">Reviewed</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Live</div>
+          <div class="tip">1 glitch comment → V3 delivered same day (f.io/K1EABWC7), approved.</div></div>
+        <div class="cal-cell"><div class="cal-date">19</div></div>
+        <div class="cal-cell"><div class="cal-date">20</div></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-assigned)"></div>Assigned / scope</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-acut)"></div>A-cut received / reviewed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-submitted)"></div>Draft submitted</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-review)"></div>Reviewed (comments given)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-approved)"></div>Approved / live</div>
+      </div>
+      <div class="legend-key">MBA = The $0 MBA (first half — Lokesh did the second half separately) · 3 Keys = Desire, Belief, Expectancy: 3 Keys to Manifesting</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns this month — all videos combined</div>
+    <div class="video">
+      <div class="catbars">
+
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">23</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 11</div><ul>
+              <li>Grid overlay too strong, reduce opacity — "the video looks low quality because of that"</li>
+              <li>Animated halftone overlay requested on a sequence</li>
+              <li>Remove a CC lens effect, "everything looks distorted"</li>
+              <li>Glitches, 2 instances</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 12</div><ul>
+              <li>Zoom anchor point should sit between the eyes, not center; zoom-out intensity increased</li>
+              <li>Camera motion too abrupt — ease in fast then slow, widen the keyframe gap</li>
+              <li>Halftone glitching, flagged twice at different timestamps</li>
+              <li>Animation looks choppy, needs more gap between keyframes; shadow gradient needs to be darker and smoother</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:65%"></div></div><span class="cb-count mono">15</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 3</div><ul>
+              <li>Supers formatting request on a key line</li>
+              <li>"Mr Lakshiani" — misspelled name on screen needs replacing</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 12</div><ul>
+              <li>Increase supers size, font is too extended vertically</li>
+              <li>Hyphen placement making a quote attribution look off-center</li>
+              <li>Sentence case fixes; remove a stray colon</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:57%"></div></div><span class="cb-count mono">13</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 8</div><ul>
+              <li>Broll "looks super AI-ish" — specific alternative scenario suggested</li>
+              <li>Upscale image quality via Magnific</li>
+              <li>Broll for a named subject flagged as low quality twice</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 5</div><ul>
+              <li>Show a progression route so the viewer has context on the journey</li>
+              <li>Animation doesn't accurately represent what's being said — "the glass represents belief"</li>
+              <li>A recreated scene "doesn't look like the same" reference object</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:26%"></div></div><span class="cb-count mono">6</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 3</div><ul>
+              <li>Framing too loose, too much empty space around the subject</li>
+              <li>A section "looks like a dump of text," needs structure</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 3</div><ul>
+              <li>Headspace inconsistent, flagged 3 times across the video</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:26%"></div></div><span class="cb-count mono">6</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 3</div><ul>
+              <li>SFX too loud, add a low-pass filter to muffle it</li>
+              <li>Audio echoing, run through Auphonic</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 3</div><ul>
+              <li>Reduce SFX gain; sync text timing to the audio, flagged twice</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:22%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 1</div><ul><li>Use beige background instead of white to match Vishen's style, add noise/halftone texture</li></ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 4</div><ul>
+              <li>Check whether the CapCut dark-circle/matte-skin pass was applied — skin looks oily</li>
+              <li>Switch white background to beige, flagged 3 times</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:22%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 1</div><ul><li><i>"Great job with the brolls!"</i></li></ul></div>
+            <div class="cb-group"><div class="cb-video">3 Keys to Manifesting — 4</div><ul>
+              <li><i>"Loved this image!"</i> · <i>"Creative! 🔥"</i> · <i>"Lovely!"</i> · <i>"Lovely broll sequence!"</i></li>
+            </ul></div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Videos this month</div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title">The $0 MBA: 7 Lessons That Built a $140M Company</div>
+          <div class="video-client">Vishen Lakhiani · first half — Lokesh Singh handled the second half separately</div>
+        </div>
+        <span class="badge b-delayed">Delayed, flagged early</span>
+        <span class="badge b-none">No verdict on file</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>30</b></span><span>Review rounds: <b>1</b></span><span>Drafts: <b>4</b> <span style="color:var(--text-faint)">(A-cut+V1+V2+Final, shared across both editors)</span></span></div>
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Aug 26</span><span class="tl-label"><b>Assigned</b> <span class="tl-note">— deadline Sep 2</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Aug 29</span><span class="tl-label"><b>A-roll submitted</b> <span class="tl-note">— f.io/W3jPQBtZ, Anirba flags pacing/length himself</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Aug 31</span><span class="tl-label"><b>A-cut reviewed</b> <span class="tl-note">— trim discussion, final comments added</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Aug 31</span><span class="tl-label"><b>Handoff</b> <span class="tl-note">— Lokesh looped in for the second half</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 3</span><span class="tl-label"><b>First-half V1 submitted</b> <span class="tl-note">— f.io/BbLVSn4b</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 3</span><span class="tl-label"><b>Reviewed</b> — 30 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 5</span><span class="tl-label"><b>Approved / live</b> <span class="tl-note">— merged with Lokesh's half, 3 days past the Sep 2 deadline</span></span></div>
+      </div>
+
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">11</span></summary>
+          <div class="cb-body"><ul>
+            <li>Grid overlay too strong, reduce opacity</li>
+            <li>Animated halftone overlay requested</li>
+            <li>Remove CC lens, "everything looks distorted"</li>
+            <li>Glitches, 2 instances</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:73%"></div></div><span class="cb-count mono">8</span></summary>
+          <div class="cb-body"><ul>
+            <li>Broll reads as AI-generated, alternative suggested</li>
+            <li>Upscale image quality via Magnific</li>
+            <li>Broll flagged as low quality twice</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:27%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Framing too loose; a section reads as an unstructured text dump</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:27%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Supers formatting; misspelled name on screen</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:27%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>SFX too loud; audio echoing, needs Auphonic pass</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:9%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li>Use beige background to match Vishen's style</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:9%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li><i>"Great job with the brolls!"</i></li></ul></div>
+        </details>
+      </div>
+    </div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title">Vishen — Desire, Belief, Expectancy: 3 Keys to Manifesting</div>
+          <div class="video-client">Vishen Lakhiani</div>
+        </div>
+        <span class="badge b-standard">⚪ Standard</span>
+        <span class="badge b-ontime">On time</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>43</b></span><span>Review rounds: <b>2</b></span><span>Drafts: <b>4</b> <span style="color:var(--text-faint)">(A-cut+V1+V2+Final)</span></span></div>
+
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Sep 8</span><span class="tl-label"><b>Assigned</b> <span class="tl-note">— deadline Sep 16</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 8</span><span class="tl-label"><b>A-roll submitted</b> <span class="tl-note">— f.io/7nIxoVkG</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 9</span><span class="tl-label"><b>A-cut reviewed</b> <span class="tl-note">— "pure gold," CapCut skin pass requested</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 16</span><span class="tl-label"><b>V1 submitted</b> <span class="tl-note">— f.io/cGi2kd2p, on the deadline day</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 17</span><span class="tl-label"><b>V1 reviewed</b> — 43 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 17</span><span class="tl-label"><b>V2 submitted</b> <span class="tl-note">— f.io/ERYTxOvn</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 18</span><span class="tl-label"><b>V2 reviewed</b> — 1 comment (glitch)</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 18</span><span class="tl-label"><b>Approved</b> <span class="tl-note">— f.io/K1EABWC7, V3 same day</span></span></div>
+      </div>
+
+      <div class="quote-box">
+        <b>Sanket's Review:</b> A lot of basic, avoidable mistakes this time — the zoom anchor point wasn't consistently between the eyes, and headspace was inconsistent throughout. Animations were choppy, not smooth. The concepts and hero sequences were genuinely great, but the first 5 minutes needed more work, and there was room to tighten up elsewhere too. It's all in the comments — V1 could have landed a lot better if these smaller things had been caught before submitting.
+      </div>
+
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">12</span></summary>
+          <div class="cb-body"><ul>
+            <li>Zoom anchor point should sit between the eyes; zoom-out intensity increased</li>
+            <li>Camera motion too abrupt, ease in fast-then-slow with wider keyframe gaps</li>
+            <li>Halftone glitching twice; animation choppy, needs more keyframe spacing</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">12</span></summary>
+          <div class="cb-body"><ul>
+            <li>Supers too extended vertically, increase size</li>
+            <li>Hyphen placement off-centering a quote attribution</li>
+            <li>Sentence case fixes; remove a stray colon</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:42%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body"><ul>
+            <li>Show a progression route for viewer context</li>
+            <li>Animation doesn't accurately represent the spoken point about belief</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:33%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><ul><li>Confirm the CapCut skin pass was applied; switch white to beige, 3 times</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:33%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><ul><li><i>"Loved this image!"</i> · <i>"Creative! 🔥"</i> · <i>"Lovely!"</i> · <i>"Lovely broll sequence!"</i></li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Reduce SFX gain; sync text to audio, twice</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Headspace inconsistent, flagged 3 times</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns Claude flagged</div>
+    <div class="flags">
+      <div class="flag"><span class="fi">01</span>Motion (23) and Typography (15) are the two largest categories, both concentrated in 3 Keys to Manifesting.</div>
+      <div class="flag"><span class="fi">02</span>"Switch white background to beige" repeats 3 times within the same V1 round on 3 Keys to Manifesting.</div>
+      <div class="flag"><span class="fi">03</span>Headspace inconsistency is flagged 3 separate times across one video (3 Keys to Manifesting), all in the same V1 round.</div>
+      <div class="flag"><span class="fi">04</span>Both videos this month were tag-teamed or coordinated differently than a solo edit: $0 MBA was split with Lokesh; 3 Keys had a specific CapCut preset step requested before the A-cut was finalized.</div>
+      <div class="flag"><span class="fi">05</span>$0 MBA has no verdict on file (predates the review workflow); 3 Keys to Manifesting is the only one of Anirba's 2 videos with one.</div>
+    </div>
+  </section>
+
+  <footer>Talking Heads · Editor Review System · September 2026</footer>
+</div>
+
+</body>
+</html>

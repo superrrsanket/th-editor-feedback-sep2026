@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohit — September Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f6; --surface:#ffffff; --surface-2:#f1f1ef;
+    --border:#e2e2e0; --border-strong:#cccccb;
+    --text:#1c1c1b; --text-muted:#5c5c5a; --text-faint:#8c8c89;
+    --accent:#2f5fdb; --accent-soft:#eef2fd;
+
+    --stage-assigned:#75756f; --stage-acut:#16847a; --stage-submitted:#7c5cd6;
+    --stage-review:#2f6fd6; --stage-approved:#2f9e57;
+
+    --cat-content:#c9564f; --cat-motion:#7f70c9; --cat-type:#4d7fc4; --cat-layout:#c98f3f;
+    --cat-coord:#2f9488; --cat-color:#bd5a82; --cat-audio:#a8863d; --cat-praise:#469463;
+
+    --v-solid:#2f6fd6; --v-standard:#8c8c89; --v-poor:#8a4a2f;
+    --status-ontime:#2f9e57; --status-delayed:#c07a1e;
+    --gr-green:#22c55e; --gr-yellow:#eab308; --gr-red:#ef4444;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+      --border:#38383a; --border-strong:#48484a;
+      --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+      --accent:#7ba3ff; --accent-soft:#20293f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+    --border:#38383a; --border-strong:#48484a;
+    --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+    --accent:#7ba3ff; --accent-soft:#20293f;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    margin:0; padding-inline:20px; padding-block:32px;
+    line-height:1.5;
+  }
+  .page{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:32px;}
+  .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
+
+  .hdr-eyebrow{font-size:13px; font-weight:600; color:var(--accent); letter-spacing:.04em; text-transform:uppercase;}
+  h1{font-size:32px; font-weight:800; margin:6px 0 16px; letter-spacing:-0.01em;}
+  .hdr-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media (max-width:560px){.hdr-stats{grid-template-columns:1fr;}}
+  .stat{background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--border-strong); border-radius:10px; padding:16px 18px;}
+  .stat .n{font-family:"IBM Plex Mono",monospace; font-size:38px; font-weight:700; line-height:1;}
+  .stat .l{font-size:13px; color:var(--text-muted); margin-top:6px;}
+  .stat.green{border-left-color:var(--gr-green);} .stat.green .n{color:var(--gr-green);}
+  .stat.yellow{border-left-color:var(--gr-yellow);} .stat.yellow .n{color:var(--gr-yellow);}
+  .stat.red{border-left-color:var(--gr-red);} .stat.red .n{color:var(--gr-red);}
+
+  section{display:flex; flex-direction:column; gap:14px;}
+  .section-title{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted);}
+  .month-label{font-size:12.5px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; margin-top:14px;}
+  .month-label:first-child{margin-top:0;}
+
+  .cal-wrap{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:8px;}
+  .cal-dow{font-size:12.5px; font-weight:600; color:var(--text-faint); text-align:center; text-transform:uppercase; letter-spacing:.04em; padding-bottom:4px;}
+  .cal-cell{position:relative; min-height:118px; border-radius:9px; background:var(--surface-2); border:1px solid transparent; padding:8px; display:flex; flex-direction:column; gap:4px;}
+  .cal-cell.empty{background:transparent;}
+  .cal-date{font-family:"IBM Plex Mono",monospace; font-size:13.5px; color:var(--text-faint);}
+  .cal-cell.event{border-color:var(--border);}
+  .cal-chip{font-size:10.5px; font-weight:600; line-height:1.3; padding:3px 6px; border-radius:5px; color:#fff; letter-spacing:.01em;}
+  .cal-cell .tip{
+    display:none; position:absolute; z-index:5; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    width:230px; background:var(--text); color:var(--bg); font-family:"Inter",sans-serif; font-size:12px; line-height:1.4;
+    padding:9px 11px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:left; font-weight:500;
+  }
+  .cal-cell.event:hover .tip{display:block;}
+  .cal-cell.event:hover{border-color:var(--border-strong);}
+  .legend{display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; margin-top:6px; font-size:12.5px; color:var(--text-muted);}
+  @media (max-width:480px){.legend{grid-template-columns:1fr;}}
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .legend-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+
+  .catbars{display:flex; flex-direction:column; gap:2px;}
+  .catbar{border-top:1px solid var(--border);}
+  .catbar:first-child{border-top:none;}
+  .catbar summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:10px 2px;}
+  .catbar summary::-webkit-details-marker{display:none;}
+  .catbar summary .arrow{font-size:10px; color:var(--text-faint); width:10px; flex-shrink:0; transition:transform .15s;}
+  .catbar[open] summary .arrow{transform:rotate(90deg);}
+  .catbar summary .cb-label{font-size:13.5px; font-weight:600; width:150px; flex-shrink:0; color:var(--cb-c,var(--text));}
+  .catbar summary .cb-track{flex:1; height:8px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+  .catbar summary .cb-fill{height:100%; background:var(--cb-c,var(--accent)); border-radius:4px;}
+  .catbar summary .cb-count{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:13px; width:28px; text-align:right; flex-shrink:0; color:var(--text-muted);}
+  .catbar .cb-body{padding:0 2px 14px 162px; font-size:13.5px; line-height:1.55;}
+  @media (max-width:560px){
+    .catbar summary{flex-wrap:wrap;}
+    .catbar summary .cb-label{width:100%; order:1;}
+    .catbar summary .cb-track{order:2;}
+    .catbar summary .cb-count{order:3;}
+    .catbar .cb-body{padding-left:2px;}
+  }
+  .cb-body ul{margin:0; padding-left:16px;}
+  .cb-body li{margin-bottom:3px;}
+  .cb-body li i{color:var(--text-muted); font-style:italic;}
+
+  .video{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .video-hdr{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;}
+  .video-title{font-size:18px; font-weight:700; letter-spacing:-.005em;}
+  .video-client{font-size:12.5px; color:var(--text-muted); margin-top:2px;}
+  .badge{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:5px; border-left:3px solid; letter-spacing:.01em; white-space:nowrap;}
+  .b-solid{color:var(--v-solid); background:var(--accent-soft); border-color:var(--v-solid);}
+  .b-delayed{color:var(--status-delayed); background:var(--surface-2); border-color:var(--status-delayed);}
+
+  .video-stats{display:flex; gap:24px; margin-top:14px; font-size:13px; color:var(--text-muted); flex-wrap:wrap;}
+  .video-stats b{color:var(--text); font-family:"IBM Plex Mono",monospace; font-weight:600;}
+
+  .timeline{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:7px;}
+  .tl-row{display:flex; gap:12px; font-size:13.5px; align-items:baseline;}
+  .tl-date{font-family:"IBM Plex Mono",monospace; color:var(--text-muted); width:56px; flex-shrink:0;}
+  .tl-label b{font-weight:600;}
+  .tl-label .tl-note{color:var(--text-faint);}
+
+  .video .catbars{margin-top:16px; padding-top:4px; border-top:1px solid var(--border);}
+
+  .flags{display:flex; flex-direction:column; gap:10px;}
+  .flag{display:flex; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; font-size:14px;}
+  .flag .fi{font-family:"IBM Plex Mono",monospace; color:var(--text-faint); flex-shrink:0;}
+
+  .quote-box{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 18px; font-size:14px; line-height:1.6; color:var(--text);}
+
+  footer{color:var(--text-faint); font-size:12px; text-align:center; padding-top:8px;}
+</style>
+
+</head>
+<body>
+<div class="page">
+
+  <div>
+    <div class="hdr-eyebrow">Editor Review — September 2026</div>
+    <h1>Mohit Sajwan</h1>
+    <div class="hdr-stats">
+      <div class="stat red"><div class="n mono">1</div><div class="l">Videos shipped <span style="color:var(--text-faint)">· target 4/mo</span></div></div>
+      <div class="stat green"><div class="n mono">4</div><div class="l">Total drafts <span style="color:var(--text-faint)">· target ≤4 (A-cut+V1+V2+Final × 1 video)</span></div></div>
+      <div class="stat"><div class="n mono">24</div><div class="l">Total comments</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-title">August–September at a glance</div>
+    <div class="cal-wrap">
+      <div class="month-label">August 2026</div>
+      <div class="cal-grid">
+        <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+
+        <div class="cal-cell"><div class="cal-date">16</div></div>
+        <div class="cal-cell event"><div class="cal-date">17</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned</div>
+          <div class="tip">Najma kicks off with brief, footage and a 2-week deadline.</div></div>
+        <div class="cal-cell"><div class="cal-date">18</div></div>
+        <div class="cal-cell"><div class="cal-date">19</div></div>
+        <div class="cal-cell"><div class="cal-date">20</div></div>
+        <div class="cal-cell event"><div class="cal-date">21</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-cut in</div>
+          <div class="tip">Corrected A-cuts of both closing versions delivered (f.io/V2Ic9tmz).</div></div>
+        <div class="cal-cell"><div class="cal-date">22</div></div>
+
+        <div class="cal-cell"><div class="cal-date">23</div></div>
+        <div class="cal-cell"><div class="cal-date">24</div></div>
+        <div class="cal-cell"><div class="cal-date">25</div></div>
+        <div class="cal-cell"><div class="cal-date">26</div></div>
+        <div class="cal-cell"><div class="cal-date">27</div></div>
+        <div class="cal-cell"><div class="cal-date">28</div></div>
+        <div class="cal-cell"><div class="cal-date">29</div></div>
+
+        <div class="cal-cell"><div class="cal-date">30</div></div>
+        <div class="cal-cell event"><div class="cal-date">31</div>
+          <div class="cal-chip" style="background:var(--stage-review)">Interim check-in</div>
+          <div class="tip">Shares a "first 30 mins" cut (f.io/RivsH3mG) ahead of schedule — not one of the 3 tracked drafts, but Sanket gives detailed positive feedback same day.</div></div>
+      </div>
+
+      <div class="month-label">September 2026</div>
+      <div class="cal-grid">
+        <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+
+        <div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+        <div class="cal-cell"><div class="cal-date">1</div></div>
+        <div class="cal-cell event"><div class="cal-date">2</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Leave flagged</div>
+          <div class="tip">Father's health suddenly dipped (viral fever) — flagged proactively same day, asked for one extra day.</div></div>
+        <div class="cal-cell"><div class="cal-date">3</div></div>
+        <div class="cal-cell"><div class="cal-date">4</div></div>
+        <div class="cal-cell event"><div class="cal-date">5</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V1 in</div>
+          <div class="tip">V1 delivered (f.io/JRSeJb_N): "still small errors that need fixing."</div></div>
+
+        <div class="cal-cell"><div class="cal-date">6</div></div>
+        <div class="cal-cell event"><div class="cal-date">7</div>
+          <div class="cal-chip" style="background:var(--stage-review)">V1 reviewed</div>
+          <div class="tip">V1 reviewed — 13 comments.</div></div>
+        <div class="cal-cell"><div class="cal-date">8</div></div>
+        <div class="cal-cell event"><div class="cal-date">9</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V2 in</div>
+          <div class="tip">V2 delivered — packaged cut with subtitles and music.</div></div>
+        <div class="cal-cell event"><div class="cal-date">10</div>
+          <div class="cal-chip" style="background:var(--stage-review)">V2 reviewed</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V3 in</div>
+          <div class="tip">V2 reviewed (11 comments) → V3 delivered same evening (f.io/Y8gHGOCV), incorporating all feedback.</div></div>
+        <div class="cal-cell"><div class="cal-date">11</div></div>
+        <div class="cal-cell"><div class="cal-date">12</div></div>
+
+        <div class="cal-cell"><div class="cal-date">13</div></div>
+        <div class="cal-cell"><div class="cal-date">14</div></div>
+        <div class="cal-cell event"><div class="cal-date">15</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Approved</div>
+          <div class="tip">Vishen's team signs off. Separately, they request a "stripped back" (captions-only) version to A/B test — new scope, not delivered within this cycle.</div></div>
+        <div class="cal-cell"><div class="cal-date">16</div></div>
+        <div class="cal-cell"><div class="cal-date">17</div></div>
+        <div class="cal-cell"><div class="cal-date">18</div></div>
+        <div class="cal-cell"><div class="cal-date">19</div></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-assigned)"></div>Assigned / scope</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-acut)"></div>A-cut received / reviewed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-submitted)"></div>Draft submitted</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-review)"></div>Reviewed (comments given)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-approved)"></div>Approved / live</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns this month — all videos combined</div>
+    <div class="video">
+      <div class="catbars">
+
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">12</span></summary>
+          <div class="cb-body"><ul>
+            <li>Roto cleanup: "reduce chatter, increase smoothness, more contrast" (V1)</li>
+            <li>Cuts too fast — "increase a few frames in each cut" (V1)</li>
+            <li>Pattern interruptor requested twice, at two different timestamps (V1)</li>
+            <li>Long pause flagged twice, asked to eliminate (V1)</li>
+            <li>Frame glitch (FG), 2 instances (V1)</li>
+            <li>Mask out a hand (V1)</li>
+            <li>Animation timing out of sync with speech — words land after Vishen finishes saying them; animation-in too slow for the pace (V2)</li>
+            <li>Mask a person out of the background via roto (V2)</li>
+            <li>Increase animation-in speed for 3 specific words (V2)</li>
+          </ul></div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul>
+            <li>Add the progress bar here as well (V2)</li>
+            <li>Spacing discrepancy, please check (V2)</li>
+            <li>Start the video a few frames earlier; keep the progress bar below for continuity (V2)</li>
+          </ul></div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul>
+            <li>A flagged "mistake" turned out to be intentional both times it came up (V1, then again V2): <i>"It was in Vishen's editing notes to keep this. Sounds authentic."</i></li>
+            <li>Wording correction on "refund" (V2)</li>
+          </ul></div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul>
+            <li>"Frame error – Fixed" — Mohit's own status note (V1)</li>
+            <li>"Closing 1" / "Closing 2" — internal markers labeling each closing segment inside the combined V2 file</li>
+          </ul></div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:17%"></div></div><span class="cb-count mono">2</span></summary>
+          <div class="cb-body"><ul>
+            <li>Add subtitles (V1)</li>
+            <li>Restructure a title card's line breaks to match speech rhythm (V1)</li>
+          </ul></div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:8%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li>Add music to a section — suggested asking Claude for a music prompt (V2)</li></ul></div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Videos this month</div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title">Masterclass Edit — Jim Kwik (Superbrain)</div>
+          <div class="video-client">Vishen Lakhiani · first assignment · 2 closing versions (A/B)</div>
+        </div>
+        <span class="badge b-solid">✅ Solid</span>
+        <span class="badge b-delayed">Delayed, flagged early</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>24</b></span><span>Review rounds: <b>2</b></span><span>Drafts: <b>4</b> <span style="color:var(--text-faint)">(A-cut+V1+V2+Final)</span></span></div>
+
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Aug 17</span><span class="tl-label"><b>Assigned</b> <span class="tl-note">— 2-week deadline</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Aug 21</span><span class="tl-label"><b>A-cut submitted</b> <span class="tl-note">— both closing versions, f.io/V2Ic9tmz</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Aug 31</span><span class="tl-label"><b>Interim cut shared</b> <span class="tl-note">— first 30 mins, ahead of schedule, not a tracked draft</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 2</span><span class="tl-label"><b>Leave flagged</b> <span class="tl-note">— father's health emergency, disclosed same day, asked for 1 extra day</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 5</span><span class="tl-label"><b>V1 submitted</b> <span class="tl-note">— f.io/JRSeJb_N</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 7</span><span class="tl-label"><b>V1 reviewed</b> — 13 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 9</span><span class="tl-label"><b>V2 submitted</b> <span class="tl-note">— subtitles + music added</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 10</span><span class="tl-label"><b>V2 reviewed</b> — 11 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 10</span><span class="tl-label"><b>V3 submitted</b> <span class="tl-note">— f.io/Y8gHGOCV, all feedback incorporated</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 15</span><span class="tl-label"><b>Approved</b> <span class="tl-note">— client sign-off, 5 days after V3</span></span></div>
+      </div>
+
+      <div class="quote-box">
+        <b>Sanket's Review:</b> Picked up the style fast — clean, neat, no basic errors on V1 — and went beyond the brief, researching historical images and videos that added real depth the script didn't ask for. Handled a family emergency professionally: flagged it the same day instead of going quiet, then turned V2 and V3 around same-day once back. By V3, everything looked clean overall. To improve: pacing was the single biggest recurring note (cuts too fast, needs more pattern interruptors by default), plus roto/masking and frame-glitch cleanup showed up more than once.
+      </div>
+
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">12</span></summary>
+          <div class="cb-body"><ul>
+            <li>Roto cleanup, cuts too fast, pattern interruptors (twice), long pause (twice), frame glitches (twice)</li>
+            <li>Animation timing out of sync with speech (V2); speed up 3 animation-ins</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Progress bar, spacing discrepancy, start-frame timing (all V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Flagged "mistake" was intentional per Vishen's own notes (twice); one wording fix</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:25%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul><li>Status note and internal segment markers (Closing 1 / Closing 2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:17%"></div></div><span class="cb-count mono">2</span></summary>
+          <div class="cb-body"><ul><li>Add subtitles; restructure a title card's line breaks</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:8%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li>Add music to a section</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns Claude flagged</div>
+    <div class="flags">
+      <div class="flag"><span class="fi">01</span>Motion (12) is exactly half of all comments this month — pacing, pattern interruptors, and frame glitches make up most of it.</div>
+      <div class="flag"><span class="fi">02</span>Pattern interruptor and long-pause notes each appear twice within the same V1 round, at different timestamps.</div>
+      <div class="flag"><span class="fi">03</span>The same "flagged as a mistake, actually intentional per Vishen's notes" exchange happened twice — once on V1, again on V2.</div>
+      <div class="flag"><span class="fi">04</span>No comments in either Color &amp; grading or Praise categories — the closest to a positive note is a status tag ("Frame error – Fixed") logged by Mohit himself, not Sanket.</div>
+      <div class="flag"><span class="fi">05</span>The "stripped back" version Vishen's team requested on Sep 15 is new scope raised the same day as approval — no delivery evidence found in this cycle.</div>
+    </div>
+  </section>
+
+  <footer>Talking Heads · Editor Review System · September 2026</footer>
+</div>
+
+</body>
+</html>

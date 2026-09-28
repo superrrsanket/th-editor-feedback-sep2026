@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokesh — September Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f6; --surface:#ffffff; --surface-2:#f1f1ef;
+    --border:#e2e2e0; --border-strong:#cccccb;
+    --text:#1c1c1b; --text-muted:#5c5c5a; --text-faint:#8c8c89;
+    --accent:#2f5fdb; --accent-soft:#eef2fd;
+
+    /* pipeline stage colors — fixed across every editor's doc */
+    --stage-assigned:#75756f; --stage-acut:#16847a; --stage-submitted:#7c5cd6;
+    --stage-review:#2f6fd6; --stage-approved:#2f9e57;
+
+    /* category colors — muted-but-legible, consistent across every editor's doc */
+    --cat-content:#c9564f; --cat-motion:#7f70c9; --cat-type:#4d7fc4; --cat-layout:#c98f3f;
+    --cat-coord:#2f9488; --cat-color:#bd5a82; --cat-audio:#a8863d; --cat-praise:#469463;
+
+    --v-solid:#2f6fd6; --v-standard:#8c8c89; --v-poor:#8a4a2f;
+    --status-ontime:#2f9e57; --status-delayed:#c07a1e;
+    --gr-green:#22c55e; --gr-yellow:#eab308; --gr-red:#ef4444;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+      --border:#38383a; --border-strong:#48484a;
+      --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+      --accent:#7ba3ff; --accent-soft:#20293f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+    --border:#38383a; --border-strong:#48484a;
+    --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+    --accent:#7ba3ff; --accent-soft:#20293f;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    margin:0; padding-inline:20px; padding-block:32px;
+    line-height:1.5;
+  }
+  .page{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:32px;}
+  .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
+
+  .hdr-eyebrow{font-size:13px; font-weight:600; color:var(--accent); letter-spacing:.04em; text-transform:uppercase;}
+  h1{font-size:32px; font-weight:800; margin:6px 0 16px; letter-spacing:-0.01em;}
+  .hdr-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media (max-width:560px){.hdr-stats{grid-template-columns:1fr;}}
+  .stat{background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--border-strong); border-radius:10px; padding:16px 18px;}
+  .stat .n{font-family:"IBM Plex Mono",monospace; font-size:38px; font-weight:700; line-height:1;}
+  .stat .l{font-size:13px; color:var(--text-muted); margin-top:6px;}
+  .stat.green{border-left-color:var(--gr-green);}
+  .stat.green .n{color:var(--gr-green);}
+  .stat.yellow{border-left-color:var(--gr-yellow);}
+  .stat.yellow .n{color:var(--gr-yellow);}
+  .stat.red{border-left-color:var(--gr-red);}
+  .stat.red .n{color:var(--gr-red);}
+
+  section{display:flex; flex-direction:column; gap:14px;}
+  .section-title{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted);}
+
+  /* calendar */
+  .cal-wrap{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:14px;}
+  .cal-dow{font-size:12.5px; font-weight:600; color:var(--text-faint); text-align:center; text-transform:uppercase; letter-spacing:.04em; padding-bottom:4px;}
+  .cal-cell{position:relative; min-height:128px; border-radius:9px; background:var(--surface-2); border:1px solid transparent; padding:8px; display:flex; flex-direction:column; gap:4px;}
+  .cal-cell.empty{background:transparent;}
+  .cal-date{font-family:"IBM Plex Mono",monospace; font-size:13.5px; color:var(--text-faint);}
+  .cal-cell.event{border-color:var(--border);}
+  .cal-chip{font-size:10.5px; font-weight:600; line-height:1.3; padding:3px 6px; border-radius:5px; color:#fff; letter-spacing:.01em;}
+  .cal-cell .tip{
+    display:none; position:absolute; z-index:5; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    width:230px; background:var(--text); color:var(--bg); font-family:"Inter",sans-serif; font-size:12px; line-height:1.4;
+    padding:9px 11px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:left; font-weight:500;
+  }
+  .cal-cell.event:hover .tip{display:block;}
+  .cal-cell.event:hover{border-color:var(--border-strong);}
+  .legend{display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; margin-top:6px; font-size:12.5px; color:var(--text-muted);}
+  @media (max-width:480px){.legend{grid-template-columns:1fr;}}
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .legend-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+
+  /* category bar rows — used both in the aggregate panel and per video */
+  .catbars{display:flex; flex-direction:column; gap:2px;}
+  .catbar{border-top:1px solid var(--border);}
+  .catbar:first-child{border-top:none;}
+  .catbar summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:10px 2px;
+  }
+  .catbar summary::-webkit-details-marker{display:none;}
+  .catbar summary .arrow{font-size:10px; color:var(--text-faint); width:10px; flex-shrink:0; transition:transform .15s;}
+  .catbar[open] summary .arrow{transform:rotate(90deg);}
+  .catbar summary .cb-label{font-size:13.5px; font-weight:600; width:150px; flex-shrink:0; color:var(--cb-c,var(--text));}
+  .catbar summary .cb-track{flex:1; height:8px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+  .catbar summary .cb-fill{height:100%; background:var(--cb-c,var(--accent)); border-radius:4px;}
+  .catbar summary .cb-count{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:13px; width:28px; text-align:right; flex-shrink:0; color:var(--text-muted);}
+  .catbar .cb-body{padding:0 2px 14px 162px; font-size:13.5px; line-height:1.55;}
+  @media (max-width:560px){
+    .catbar summary{flex-wrap:wrap;}
+    .catbar summary .cb-label{width:100%; order:1;}
+    .catbar summary .cb-track{order:2;}
+    .catbar summary .cb-count{order:3;}
+    .catbar .cb-body{padding-left:2px;}
+  }
+  .cb-group{margin-bottom:8px;}
+  .cb-group .cb-video{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); margin-bottom:2px;}
+  .cb-body ul{margin:0; padding-left:16px;}
+  .cb-body li{margin-bottom:3px;}
+  .cb-body li i{color:var(--text-muted); font-style:italic;}
+
+  /* video cards */
+  .video{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .video-hdr{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;}
+  .video-title{font-size:18px; font-weight:700; letter-spacing:-.005em;}
+  .video-client{font-size:12.5px; color:var(--text-muted); margin-top:2px;}
+  .badge{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:5px; border-left:3px solid; letter-spacing:.01em; white-space:nowrap;}
+  .b-poor{color:var(--v-poor); background:var(--surface-2); border-color:var(--v-poor);}
+  .b-none{color:var(--text-faint); background:var(--surface-2); border-color:var(--border-strong);}
+  .b-ontime{color:var(--status-ontime); background:var(--surface-2); border-color:var(--status-ontime);}
+  .b-delayed{color:var(--status-delayed); background:var(--surface-2); border-color:var(--status-delayed);}
+
+  .video-stats{display:flex; gap:24px; margin-top:14px; font-size:13px; color:var(--text-muted);}
+  .video-stats b{color:var(--text); font-family:"IBM Plex Mono",monospace; font-weight:600;}
+
+  .timeline{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:7px;}
+  .tl-row{display:flex; gap:12px; font-size:13.5px; align-items:baseline;}
+  .tl-date{font-family:"IBM Plex Mono",monospace; color:var(--text-muted); width:64px; flex-shrink:0;}
+  .tl-label b{font-weight:600;}
+  .tl-label .tl-note{color:var(--text-faint);}
+
+  .video .catbars{margin-top:16px; padding-top:4px; border-top:1px solid var(--border);}
+
+  .flags{display:flex; flex-direction:column; gap:10px;}
+  .flag{display:flex; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; font-size:14px;}
+  .flag .fi{font-family:"IBM Plex Mono",monospace; color:var(--text-faint); flex-shrink:0;}
+
+  footer{color:var(--text-faint); font-size:12px; text-align:center; padding-top:8px;}
+</style>
+
+</head>
+<body>
+<div class="page">
+
+  <div>
+    <div class="hdr-eyebrow">Editor Review — September 2026</div>
+    <h1>Lokesh Singh</h1>
+    <div class="hdr-stats">
+      <div class="stat yellow"><div class="n mono">3</div><div class="l">Videos shipped <span style="color:var(--text-faint)">· target 4/mo</span></div></div>
+      <div class="stat green"><div class="n mono">11</div><div class="l">Total drafts <span style="color:var(--text-faint)">· target ≤12 (A-cut+V1+V2+Final × 3 videos)</span></div></div>
+      <div class="stat"><div class="n mono">119</div><div class="l">Total comments</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-title">September at a glance</div>
+    <div class="cal-wrap">
+      <div class="cal-grid">
+        <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+
+        <div class="cal-cell"><div class="cal-date" style="color:var(--text-faint)">30</div></div>
+        <div class="cal-cell event"><div class="cal-date">31</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned · $0 MBA</div>
+          <div class="tip">Anirba loops Lokesh in to pick up the second half of $0 MBA (Aug 31).</div></div>
+        <div class="cal-cell"><div class="cal-date">1</div></div>
+        <div class="cal-cell"><div class="cal-date">2</div></div>
+        <div class="cal-cell event"><div class="cal-date">3</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">Draft in · $0 MBA</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned · Testimonial</div>
+          <div class="tip">$0 MBA second-half draft submitted (f.io/WhOGz4Tj). Testimonial also assigned, deadline Sep 7.</div></div>
+        <div class="cal-cell event"><div class="cal-date">4</div>
+          <div class="cal-chip" style="background:var(--stage-review)">Reviewed · $0 MBA</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">Draft in · Testimonial</div>
+          <div class="tip">$0 MBA second half reviewed, 20 comments. Testimonial first cut delivered (f.io/YCcAfRtj).</div></div>
+        <div class="cal-cell event"><div class="cal-date">5</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">Draft in · $0 MBA</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Live · $0 MBA</div>
+          <div class="tip">Merged full video submitted, 2 spelling fixes from Najma, approved and uploaded same day (f.io/n4dCHIKO).</div></div>
+        <div class="cal-cell"><div class="cal-date">6</div></div>
+
+        <div class="cal-cell"><div class="cal-date">7</div></div>
+        <div class="cal-cell"><div class="cal-date">8</div></div>
+        <div class="cal-cell event"><div class="cal-date">9</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">Draft in · Testimonial</div>
+          <div class="tip">Restructured version delivered (f.io/WewQkrsk), opening with the strongest segment per Saf's note.</div></div>
+        <div class="cal-cell event"><div class="cal-date">10</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Approved · Testimonial</div>
+          <div class="tip">Testimonial approved.</div></div>
+        <div class="cal-cell"><div class="cal-date">11</div></div>
+        <div class="cal-cell"><div class="cal-date">12</div></div>
+        <div class="cal-cell"><div class="cal-date">13</div></div>
+
+        <div class="cal-cell event"><div class="cal-date">14</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned · 9 Things</div>
+          <div class="tip">Reassigned from Saiyam — Lokesh had a gap in his pipeline. Inherits Saiyam's A-cut.</div></div>
+        <div class="cal-cell event"><div class="cal-date">15</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-cut reviewed</div>
+          <div class="tip">A-cut reviewed: "crisp, nothing much to trim." Hook 2 selected.</div></div>
+        <div class="cal-cell"><div class="cal-date">16</div></div>
+        <div class="cal-cell"><div class="cal-date">17</div></div>
+        <div class="cal-cell event"><div class="cal-date">18</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Scope flag</div>
+          <div class="tip">Lokesh flags that the script only covers 9 points, not 10. Confirmed with James's team.</div></div>
+        <div class="cal-cell event"><div class="cal-date">19</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V1 in</div>
+          <div class="tip">V1 delivered (f.io/yDTLSfW2). Deadline was Sep 22 — 3 days early.</div></div>
+        <div class="cal-cell"><div class="cal-date">20</div></div>
+
+        <div class="cal-cell event"><div class="cal-date">21</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Scope locked</div>
+          <div class="tip">Full list of 9 points confirmed with James's team.</div></div>
+        <div class="cal-cell event"><div class="cal-date">22</div>
+          <div class="cal-chip" style="background:var(--stage-review)">V1 reviewed</div>
+          <div class="tip">V1 reviewed — 64 comments. Verdict: Poor Execution.</div></div>
+        <div class="cal-cell"><div class="cal-date">23</div></div>
+        <div class="cal-cell event"><div class="cal-date">24</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V2 in</div>
+          <div class="tip">V2 delivered (f.io/-iMO147r) after James confirms 9 points.</div></div>
+        <div class="cal-cell event"><div class="cal-date">25</div>
+          <div class="cal-chip" style="background:var(--stage-review)">V2 reviewed</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">V3 in</div>
+          <div class="tip">V2 reviewed (33 comments) → V3 delivered same evening (f.io/sJRedr24).</div></div>
+        <div class="cal-cell"><div class="cal-date">26</div></div>
+        <div class="cal-cell"><div class="cal-date">27</div></div>
+
+        <div class="cal-cell event"><div class="cal-date">28</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Live</div>
+          <div class="tip">Confirmed live on the channel.</div></div>
+        <div class="cal-cell"><div class="cal-date">29</div></div>
+        <div class="cal-cell"><div class="cal-date">30</div></div>
+        <div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-assigned)"></div>Assigned / scope</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-acut)"></div>A-cut received / reviewed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-submitted)"></div>Draft submitted</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-review)"></div>Reviewed (comments given)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-approved)"></div>Approved / live</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns this month — all videos combined</div>
+    <div class="video">
+      <div class="catbars">
+
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">26</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 4</div><ul>
+              <li>Pixelation reveal needs cleanup on full-screen</li>
+              <li>Roughen-edges border fix, recurring across 3 separate quote cards</li>
+              <li>One cut felt abrupt</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 22</div><ul>
+              <li>Zoom animations starting fast and ending slow, flagged as backwards</li>
+              <li>Zoom timing rule introduced: start at the beginning of a frame, end only when the next full-screen element arrives</li>
+              <li>Corner roundness reduced twice — flagged again in V2 after being fixed in V1</li>
+              <li>Jump cuts used without a clear purpose, flagged twice</li>
+              <li>Constant zoom requests on 3 separate sequences</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:96%"></div></div><span class="cb-count mono">25</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 3</div><ul>
+              <li>Swap one broll choice</li>
+              <li>Show Srikumar Rao and Jose Silva on screen when James names them</li>
+              <li>Add a pattern interruptor mid-section</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 22</div><ul>
+              <li>Listicle graphics showed every word James said instead of the key point, flagged as the core structural issue on V1</li>
+              <li>One graphic stated social security starts at 72 — factually wrong</li>
+              <li>"This is a very basic level mistake, it looks immature"</li>
+              <li>One graphic read as inconsistent with the one before it</li>
+              <li>New bar-chart concept given for a recurring stat sequence, with a reference image attached</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:85%"></div></div><span class="cb-count mono">22</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 5</div><ul>
+              <li>Extended font switched to normal weight in two places for readability</li>
+              <li>2 spelling fixes on the final pass ("athlete", "is")</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 17</div><ul>
+              <li>Dots instead of dashes, flagged 3 separate times</li>
+              <li>Title case fixes, flagged 4 times; remove all-caps entirely</li>
+              <li>"&amp;" instead of "and", twice</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:85%"></div></div><span class="cb-count mono">22</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 22</div><ul>
+              <li>Spacing discrepancies, flagged 6+ times across V1 and V2</li>
+              <li>Alignment errors, flagged 3 times</li>
+              <li>Card padding and box equidistance, flagged twice</li>
+              <li>Icon and heading layout redesigned once, then reused</li>
+              <li>One spacing reply included a direct question: <i>"If we are using templates then why are we facing such minor issues? Please reply in Slack DMs."</i></li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:42%"></div></div><span class="cb-count mono">11</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 6</div><ul>
+              <li>Match framing with Anirba's first half</li>
+              <li>Match quote template and quote marks Anirba used</li>
+              <li>Match CG grading between the two halves</li>
+              <li>Reference back to Anirba's hook graphic to close the loop</li>
+              <li>Match Anirba's progress-bar treatment for the promotion beat</li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V2) — 5</div><ul>
+              <li>Saiyam tagged in for a second opinion, twice</li>
+              <li>Frame-number references pointing to an earlier fix, 3 times</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:19%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 2</div><ul>
+              <li><i>"Suuuperrrr Cleannn!! 🔥🥵"</i></li>
+              <li><i>"Great animations though!"</i></li>
+            </ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 3</div><ul>
+              <li><i>"VO was so seamless, I didn't notice at first. Great job with that!"</i></li>
+              <li>First 8 minutes of V1 called out as genuinely innovative</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:19%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 1</div><ul><li>CG too dark — increase exposure, boost highlights, add an S-curve</li></ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 4</div><ul>
+              <li>Specific hex given for a red accent</li>
+              <li>Icon colors should match text color, not a gray outside James's palette</li>
+              <li>Dark gradient too subtle for contrast, increased</li>
+            </ul></div>
+          </div>
+        </details>
+
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:12%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">$0 MBA — 1</div><ul><li>Audio noisy, not crisp — run through Auphonic</li></ul></div>
+            <div class="cb-group"><div class="cb-video">9 Things (V1+V2) — 2</div><ul><li>BGM gain too high on V1, SFX gain too high on V2</li></ul></div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Videos this month</div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title">The $0 MBA: 7 Lessons That Built a $140M Company</div>
+          <div class="video-client">Vishen Lakhiani · second half, tag-teamed with Anirba</div>
+        </div>
+        <span class="badge b-delayed">Delayed, flagged early</span>
+        <span class="badge b-none">No verdict on file</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>22</b></span><span>Review rounds: <b>2</b></span><span>Drafts: <b>4</b> <span style="color:var(--text-faint)">(A-cut+V1+V2+Final)</span></span></div>
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Aug 31</span><span class="tl-label"><b>Assigned</b> to Lokesh (second half) <span class="tl-note">— Anirba loops him in</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 3</span><span class="tl-label"><b>Draft submitted</b> <span class="tl-note">— f.io/WhOGz4Tj</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 4</span><span class="tl-label"><b>Reviewed</b> — 20 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 5</span><span class="tl-label"><b>Draft submitted</b> (merged full video)</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 5</span><span class="tl-label"><b>Reviewed</b> — 2 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 5</span><span class="tl-label"><b>Approved / live</b> <span class="tl-note">— f.io/n4dCHIKO</span></span></div>
+      </div>
+
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">6</span></summary>
+          <div class="cb-body"><ul>
+            <li>Match framing with Anirba's first half</li>
+            <li>Match quote template and quote marks Anirba used</li>
+            <li>Match CG grading between the two halves</li>
+            <li>Reference back to Anirba's hook graphic to close the loop</li>
+            <li>Match Anirba's progress-bar treatment for the promotion beat</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:83%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body"><ul>
+            <li>Extended font switched to normal weight in two places for readability</li>
+            <li>2 spelling fixes on the final pass ("athlete", "is")</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:67%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><ul>
+            <li>Pixelation reveal needs cleanup on full-screen</li>
+            <li>Roughen-edges border fix, recurring across 3 separate quote cards</li>
+            <li>One cut felt abrupt</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; broll</span><div class="cb-track"><div class="cb-fill" style="width:50%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul>
+            <li>Swap one broll choice</li>
+            <li>Show Srikumar Rao and Jose Silva on screen when James names them</li>
+            <li>Add a pattern interruptor mid-section</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:33%"></div></div><span class="cb-count mono">2</span></summary>
+          <div class="cb-body"><ul>
+            <li><i>"Suuuperrrr Cleannn!! 🔥🥵"</i></li>
+            <li><i>"Great animations though!"</i></li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:17%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li>CG too dark — increase exposure, boost highlights, add an S-curve</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:17%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li>Audio noisy, not crisp — run through Auphonic</li></ul></div>
+        </details>
+      </div>
+    </div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title">James Conole — Testimonial</div>
+          <div class="video-client">James Conole</div>
+        </div>
+        <span class="badge b-ontime">On time</span>
+        <span class="badge b-none">No verdict on file</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>0</b> <span style="color:var(--text-faint)">(no Frame.io review — feedback given directly)</span></span><span>Review rounds: <b>1</b></span><span>Drafts: <b>3</b> <span style="color:var(--text-faint)">(A-cut+V1+Final)</span></span></div>
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Sep 3</span><span class="tl-label"><b>Assigned</b> <span class="tl-note">— deadline Sep 7</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 4</span><span class="tl-label"><b>Draft submitted</b> <span class="tl-note">— f.io/YCcAfRtj</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 8</span><span class="tl-label"><b>Feedback given</b> — restructure requested (open with strongest segment)</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 9</span><span class="tl-label"><b>Draft submitted</b> (restructured) <span class="tl-note">— f.io/WewQkrsk</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 10</span><span class="tl-label"><b>Approved</b></span></div>
+      </div>
+    </div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title">10 Things You Need To Know Before Retiring Early <span style="color:var(--text-faint); font-weight:500;">(became 9 Things)</span></div>
+          <div class="video-client">James Conole · reassigned from Saiyam Sep 14</div>
+        </div>
+        <span class="badge b-poor">❌ Poor Execution</span>
+        <span class="badge b-delayed">Delayed, flagged early</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>97</b></span><span>Review rounds: <b>2</b></span><span>Drafts: <b>4</b> <span style="color:var(--text-faint)">(A-cut+V1+V2+Final)</span></span></div>
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Sep 14</span><span class="tl-label"><b>Assigned</b> to Lokesh <span class="tl-note">— reassigned from Saiyam, deadline Sep 22</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 15</span><span class="tl-label"><b>A-cut reviewed</b> — Hook 2 selected</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 18</span><span class="tl-label"><b>Scope flag</b> — script covers 9 points, not 10</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 19</span><span class="tl-label"><b>V1 submitted</b> <span class="tl-note">— f.io/yDTLSfW2, 3 days ahead of deadline</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 21</span><span class="tl-label"><b>Scope locked</b> — 9 points confirmed with James's team</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 22</span><span class="tl-label"><b>V1 reviewed</b> — 64 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 24</span><span class="tl-label"><b>V2 submitted</b> <span class="tl-note">— f.io/-iMO147r</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 25</span><span class="tl-label"><b>V2 reviewed</b> — 33 comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 25</span><span class="tl-label"><b>V3 submitted</b> <span class="tl-note">— f.io/sJRedr24, 3 days past deadline</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Sep 28</span><span class="tl-label"><b>Confirmed live</b></span></div>
+      </div>
+
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">22</span></summary>
+          <div class="cb-body"><ul>
+            <li>Listicle graphics showed every word James said instead of the key point</li>
+            <li>One graphic stated social security starts at 72 — factually wrong</li>
+            <li>"This is a very basic level mistake, it looks immature"</li>
+            <li>One graphic read as inconsistent with the one before it</li>
+            <li>New bar-chart concept given for a recurring stat sequence, with a reference image attached</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">22</span></summary>
+          <div class="cb-body"><ul>
+            <li>Zoom animations starting fast and ending slow — flagged as backwards</li>
+            <li>Zoom timing rule introduced: start at frame beginning, end only at the next full-screen element</li>
+            <li>Corner roundness reduced twice — flagged again in V2 after being fixed in V1</li>
+            <li>Jump cuts used without a clear purpose, flagged twice</li>
+            <li>Constant zoom requested on 3 separate sequences</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">22</span></summary>
+          <div class="cb-body"><ul>
+            <li>Spacing discrepancies, flagged 6+ times across V1 and V2</li>
+            <li>Alignment errors, flagged 3 times</li>
+            <li>Card padding and box equidistance, flagged twice</li>
+            <li>One spacing reply included a direct question: <i>"If we are using templates then why are we facing such minor issues? Please reply in Slack DMs."</i></li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:77%"></div></div><span class="cb-count mono">17</span></summary>
+          <div class="cb-body"><ul>
+            <li>Dots instead of dashes, flagged 3 times</li>
+            <li>Title case fixes, flagged 4 times; remove all-caps entirely</li>
+            <li>"&amp;" instead of "and", twice</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:23%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body"><ul>
+            <li>Saiyam tagged in for a second opinion, twice</li>
+            <li>Frame-number references pointing to an earlier fix, 3 times</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:18%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><ul>
+            <li>Specific hex given for a red accent</li>
+            <li>Icon colors should match text color</li>
+            <li>Dark gradient too subtle for contrast, increased</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:14%"></div></div><span class="cb-count mono">3</span></summary>
+          <div class="cb-body"><ul>
+            <li><i>"VO was so seamless, I didn't notice at first. Great job with that!"</i></li>
+            <li>First 8 minutes of V1 called out as genuinely innovative</li>
+          </ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:9%"></div></div><span class="cb-count mono">2</span></summary>
+          <div class="cb-body"><ul><li>BGM gain too high on V1, SFX gain too high on V2</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns Claude flagged</div>
+    <div class="flags">
+      <div class="flag"><span class="fi">01</span>Spacing/alignment notes appear in both V1 and V2 of 9 Things — same category, both rounds.</div>
+      <div class="flag"><span class="fi">02</span>Corner roundness was flagged and adjusted in V1, then flagged again in V2.</div>
+      <div class="flag"><span class="fi">03</span>Dots-vs-dashes and title case each appear in both review rounds of 9 Things.</div>
+      <div class="flag"><span class="fi">04</span>Motion (26) and Content &amp; Accuracy (25) are the two largest categories this month, both concentrated in 9 Things.</div>
+      <div class="flag"><span class="fi">05</span>$0 MBA's 6 coordination comments are all about matching another editor's half; 9 Things' 5 are tags and frame references, not matching work.</div>
+      <div class="flag"><span class="fi">06</span>One comment on 9 Things V2 was left as a direct question in the thread rather than a standard fix request.</div>
+    </div>
+  </section>
+
+  <footer>Talking Heads · Editor Review System · September 2026</footer>
+</div>
+
+</body>
+</html>
