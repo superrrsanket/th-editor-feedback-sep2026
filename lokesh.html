@@ -54,7 +54,8 @@
   }
   a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent;}
   a:hover{border-bottom-color:currentColor;}
-  .video-title a{color:inherit; font-weight:inherit;}
+  .video-title a{color:var(--text); text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px; cursor:pointer;}
+  .video-title a:hover{color:var(--accent); text-decoration-color:var(--accent);}
   .tip a{color:var(--bg); border-bottom-color:rgba(255,255,255,.4);}
   .page{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:32px;}
   .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
