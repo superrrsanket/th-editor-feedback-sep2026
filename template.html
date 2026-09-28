@@ -1,0 +1,285 @@
+<title>Feedback Document Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f6; --surface:#ffffff; --surface-2:#f1f1ef;
+    --border:#e2e2e0; --border-strong:#cccccb;
+    --text:#1c1c1b; --text-muted:#5c5c5a; --text-faint:#8c8c89;
+    --accent:#2f5fdb; --accent-soft:#eef2fd;
+
+    /* pipeline stage colors — fixed across every editor's doc, never change these */
+    --stage-assigned:#75756f; --stage-acut:#16847a; --stage-submitted:#7c5cd6;
+    --stage-review:#2f6fd6; --stage-approved:#2f9e57;
+
+    /* category colors — muted-but-legible, consistent across every editor's doc */
+    --cat-content:#c9564f; --cat-motion:#7f70c9; --cat-type:#4d7fc4; --cat-layout:#c98f3f;
+    --cat-coord:#2f9488; --cat-color:#bd5a82; --cat-audio:#a8863d; --cat-praise:#469463;
+
+    --v-solid:#2f6fd6; --v-standard:#8c8c89; --v-poor:#8a4a2f;
+    --status-ontime:#2f9e57; --status-delayed:#c07a1e;
+    --gr-green:#22c55e; --gr-yellow:#eab308; --gr-red:#ef4444;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+      --border:#38383a; --border-strong:#48484a;
+      --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+      --accent:#7ba3ff; --accent-soft:#20293f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18181a; --surface:#222224; --surface-2:#2a2a2c;
+    --border:#38383a; --border-strong:#48484a;
+    --text:#ececea; --text-muted:#a8a8a5; --text-faint:#75756f;
+    --accent:#7ba3ff; --accent-soft:#20293f;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    margin:0; padding-inline:20px; padding-block:32px;
+    line-height:1.5;
+  }
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent;}
+  a:hover{border-bottom-color:currentColor;}
+  .video-title a{color:var(--text); text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px; cursor:pointer;}
+  .video-title a:hover{color:var(--accent); text-decoration-color:var(--accent);}
+  .tip a{color:var(--bg); border-bottom-color:rgba(255,255,255,.4);}
+  .page{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:32px;}
+  .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
+
+  .banner{background:var(--accent-soft); border:1px solid var(--accent); border-radius:12px; padding:16px 20px; font-size:14px; line-height:1.6;}
+  .banner b{color:var(--accent);}
+
+  .hdr-eyebrow{font-size:13px; font-weight:600; color:var(--accent); letter-spacing:.04em; text-transform:uppercase;}
+  h1{font-size:32px; font-weight:800; margin:6px 0 16px; letter-spacing:-0.01em;}
+  .hdr-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media (max-width:560px){.hdr-stats{grid-template-columns:1fr;}}
+  .stat{background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--border-strong); border-radius:10px; padding:16px 18px;}
+  .stat .n{font-family:"IBM Plex Mono",monospace; font-size:38px; font-weight:700; line-height:1;}
+  .stat .l{font-size:13px; color:var(--text-muted); margin-top:6px;}
+  .stat.green{border-left-color:var(--gr-green);} .stat.green .n{color:var(--gr-green);}
+  .stat.yellow{border-left-color:var(--gr-yellow);} .stat.yellow .n{color:var(--gr-yellow);}
+  .stat.red{border-left-color:var(--gr-red);} .stat.red .n{color:var(--gr-red);}
+
+  section{display:flex; flex-direction:column; gap:14px;}
+  .section-title{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted);}
+
+  .cal-wrap{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:14px;}
+  .cal-dow{font-size:12.5px; font-weight:600; color:var(--text-faint); text-align:center; text-transform:uppercase; letter-spacing:.04em; padding-bottom:4px;}
+  .cal-cell{position:relative; min-height:128px; border-radius:9px; background:var(--surface-2); border:1px solid transparent; padding:8px; display:flex; flex-direction:column; gap:4px;}
+  .cal-cell.empty{background:transparent;}
+  .cal-date{font-family:"IBM Plex Mono",monospace; font-size:13.5px; color:var(--text-faint);}
+  .cal-cell.event{border-color:var(--border);}
+  .cal-chip{font-size:10.5px; font-weight:600; line-height:1.3; padding:3px 6px; border-radius:5px; color:#fff; letter-spacing:.01em;}
+  .cal-cell .tip{
+    display:none; position:absolute; z-index:5; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    width:230px; background:var(--text); color:var(--bg); font-family:"Inter",sans-serif; font-size:12px; line-height:1.4;
+    padding:9px 11px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:left; font-weight:500;
+  }
+  .cal-cell.event:hover .tip{display:block;}
+  .cal-cell.event:hover{border-color:var(--border-strong);}
+  .legend{display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; margin-top:6px; font-size:12.5px; color:var(--text-muted);}
+  @media (max-width:480px){.legend{grid-template-columns:1fr;}}
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .legend-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+
+  .catbars{display:flex; flex-direction:column; gap:2px;}
+  .catbar{border-top:1px solid var(--border);}
+  .catbar:first-child{border-top:none;}
+  .catbar summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:10px 2px;}
+  .catbar summary::-webkit-details-marker{display:none;}
+  .catbar summary .arrow{font-size:10px; color:var(--text-faint); width:10px; flex-shrink:0; transition:transform .15s;}
+  .catbar[open] summary .arrow{transform:rotate(90deg);}
+  .catbar summary .cb-label{font-size:13.5px; font-weight:600; width:150px; flex-shrink:0; color:var(--cb-c,var(--text));}
+  .catbar summary .cb-track{flex:1; height:8px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+  .catbar summary .cb-fill{height:100%; background:var(--cb-c,var(--accent)); border-radius:4px;}
+  .catbar summary .cb-count{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:13px; width:28px; text-align:right; flex-shrink:0; color:var(--text-muted);}
+  .catbar .cb-body{padding:0 2px 14px 162px; font-size:13.5px; line-height:1.55;}
+  @media (max-width:560px){
+    .catbar summary{flex-wrap:wrap;}
+    .catbar summary .cb-label{width:100%; order:1;}
+    .catbar summary .cb-track{order:2;}
+    .catbar summary .cb-count{order:3;}
+    .catbar .cb-body{padding-left:2px;}
+  }
+  .cb-group{margin-bottom:8px;}
+  .cb-group .cb-video{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); margin-bottom:2px;}
+  .cb-body ul{margin:0; padding-left:16px;}
+  .cb-body li{margin-bottom:3px;}
+  .cb-body li i{color:var(--text-muted); font-style:italic;}
+
+  .video{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .video-hdr{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;}
+  .video-title{font-size:18px; font-weight:700; letter-spacing:-.005em;}
+  .video-client{font-size:12.5px; color:var(--text-muted); margin-top:2px;}
+  .badge{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:5px; border-left:3px solid; letter-spacing:.01em; white-space:nowrap;}
+  .b-solid{color:var(--v-solid); background:var(--accent-soft); border-color:var(--v-solid);}
+  .b-standard{color:var(--v-standard); background:var(--surface-2); border-color:var(--v-standard);}
+  .b-poor{color:var(--v-poor); background:var(--surface-2); border-color:var(--v-poor);}
+  .b-none{color:var(--text-faint); background:var(--surface-2); border-color:var(--border-strong);}
+  .b-ontime{color:var(--status-ontime); background:var(--surface-2); border-color:var(--status-ontime);}
+  .b-delayed{color:var(--status-delayed); background:var(--surface-2); border-color:var(--status-delayed);}
+
+  .video-stats{display:flex; gap:24px; margin-top:14px; font-size:13px; color:var(--text-muted); flex-wrap:wrap;}
+  .video-stats b{color:var(--text); font-family:"IBM Plex Mono",monospace; font-weight:600;}
+
+  .timeline{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:7px;}
+  .tl-row{display:flex; gap:12px; font-size:13.5px; align-items:baseline;}
+  .tl-date{font-family:"IBM Plex Mono",monospace; color:var(--text-muted); width:64px; flex-shrink:0;}
+  .tl-label b{font-weight:600;}
+  .tl-label .tl-note{color:var(--text-faint);}
+
+  .video .catbars{margin-top:16px; padding-top:4px; border-top:1px solid var(--border);}
+
+  .flags{display:flex; flex-direction:column; gap:10px;}
+  .flag{display:flex; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; font-size:14px;}
+  .flag .fi{font-family:"IBM Plex Mono",monospace; color:var(--text-faint); flex-shrink:0;}
+
+  .quote-box{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 18px; font-size:14px; line-height:1.6; color:var(--text);}
+
+  footer{color:var(--text-faint); font-size:12px; text-align:center; padding-top:8px;}
+</style>
+
+<div class="page">
+
+  <div class="banner">
+    <b>This is the template, not a real doc.</b> Copy this file's structure for each new editor/cycle. Every component below is required — the calendar, the aggregate "Patterns" panel, one card per video with its own timeline + category breakdown, and the "Patterns Claude flagged" section. Swap in real data everywhere in brackets. Keep the CSS exactly as-is (colors, stage/category palettes, and link styles are locked — see notes at the end).
+  </div>
+
+  <div>
+    <div class="hdr-eyebrow">Editor Review — [Month Year]</div>
+    <h1>[Editor Name]</h1>
+    <div class="hdr-stats">
+      <div class="stat yellow"><div class="n mono">3</div><div class="l">Videos shipped <span style="color:var(--text-faint)">· target 4/mo</span></div></div>
+      <div class="stat green"><div class="n mono">11</div><div class="l">Total drafts <span style="color:var(--text-faint)">· target ≤12 (A-cut+V1+V2+Final × 3 videos)</span></div></div>
+      <div class="stat"><div class="n mono">42</div><div class="l">Total comments</div></div>
+    </div>
+  </div>
+  <div class="banner" style="margin-top:-16px;">
+    Exactly 3 stat tiles, no more. Videos shipped and Total drafts get traffic-light colors (green/yellow/red per the thresholds in memory); Total comments stays plain — never color it, never add a 4th tile.
+  </div>
+
+  <section>
+    <div class="section-title">[Month] at a glance</div>
+    <div class="cal-wrap">
+      <div class="cal-grid">
+        <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+
+        <div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+        <div class="cal-cell"><div class="cal-date">1</div></div>
+        <div class="cal-cell event"><div class="cal-date">2</div>
+          <div class="cal-chip" style="background:var(--stage-assigned)">Assigned · [Video A]</div>
+          <div class="tip">[Full detail shown on hover — what happened, links, context]</div></div>
+        <div class="cal-cell event"><div class="cal-date">3</div>
+          <div class="cal-chip" style="background:var(--stage-acut)">A-cut in · [Video A]</div>
+          <div class="tip">[A-cut delivered — <a href="https://f.io/EXAMPLE" target="_blank" rel="noopener">f.io/EXAMPLE</a>]</div></div>
+        <div class="cal-cell"><div class="cal-date">4</div></div>
+        <div class="cal-cell event"><div class="cal-date">5</div>
+          <div class="cal-chip" style="background:var(--stage-submitted)">Draft in · [Video A]</div>
+          <div class="cal-chip" style="background:var(--stage-review)">Reviewed · [Video A]</div>
+          <div class="tip">[Multiple events same day — stack chips vertically, one per event, in chronological order]</div></div>
+        <div class="cal-cell"><div class="cal-date">6</div></div>
+
+        <div class="cal-cell"><div class="cal-date">7</div></div>
+        <div class="cal-cell event"><div class="cal-date">8</div>
+          <div class="cal-chip" style="background:var(--stage-approved)">Approved · [Video A]</div>
+          <div class="tip">[Approved / live]</div></div>
+        <div class="cal-cell"><div class="cal-date">9</div></div>
+        <div class="cal-cell"><div class="cal-date">10</div></div>
+        <div class="cal-cell"><div class="cal-date">11</div></div>
+        <div class="cal-cell"><div class="cal-date">12</div></div>
+        <div class="cal-cell"><div class="cal-date">13</div></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-assigned)"></div>Assigned / scope</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-acut)"></div>A-cut received / reviewed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-submitted)"></div>Draft submitted</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-review)"></div>Reviewed (comments given)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-approved)"></div>Approved / live</div>
+      </div>
+    </div>
+  </section>
+  <div class="banner">
+    Verify every date against the actual Slack timestamp or CSV "Commented At" value before placing it — count leading empty cells carefully (Python: <code>calendar.Calendar(firstweekday=6).monthdayscalendar(year, month)</code>). A miscounted leading cell shifts the entire month by one weekday. If the editor's work spans two calendar months, stack two labeled grids (see Mohit's or Saiyam's actual docs) instead of cramming one month.
+  </div>
+
+  <section>
+    <div class="section-title">Patterns this month — all videos combined</div>
+    <div class="video">
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">18</span></summary>
+          <div class="cb-body">
+            <div class="cb-group"><div class="cb-video">[Video A] — 10</div><ul><li>[Representative comment, verbatim or tightly paraphrased]</li></ul></div>
+            <div class="cb-group"><div class="cb-video">[Video B] — 8</div><ul><li>[Representative comment]</li></ul></div>
+          </div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:60%"></div></div><span class="cb-count mono">11</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">[Video A] — 11</div><ul><li>[Comment]</li></ul></div></div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <div class="banner">
+    9 fixed categories, same colors every doc: Motion &amp; animation, Content &amp; accuracy, Typography, Layout &amp; spacing, Coordination (tags/@mentions/frame-number references/matching-another-editor's-work — never force these into a craft category), Color &amp; grading, Audio, Praise. No "Flagged directly" category — fold a pointed reply into its parent comment's category instead of double-counting it. Bar width = count ÷ that panel's own max count. Count every DISTINCT Comment ID (replies share their parent's ID) — list them out, don't eyeball a row count.
+  </div>
+
+  <section>
+    <div class="section-title">Videos this month</div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title"><a href="https://bettervideos.slack.com/archives/EXAMPLE/pEXAMPLE" target="_blank" rel="noopener">[Video A Title]</a></div>
+          <div class="video-client">[Client] · [first assignment / reassigned from X / tag-teamed with Y, etc.]</div>
+        </div>
+        <span class="badge b-solid">✅ Solid</span>
+        <span class="badge b-ontime">On time</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>18</b></span><span>Review rounds: <b>2</b></span><span>Drafts: <b>4</b> <span style="color:var(--text-faint)">(A-cut+V1+V2+Final)</span></span></div>
+
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">[Date]</span><span class="tl-label"><b>Assigned</b> <span class="tl-note">— deadline [date]</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">[Date]</span><span class="tl-label"><b>A-cut submitted</b> <span class="tl-note">— <a href="https://f.io/EXAMPLE" target="_blank" rel="noopener">f.io/EXAMPLE</a></span></span></div>
+        <div class="tl-row"><span class="tl-date mono">[Date]</span><span class="tl-label"><b>Reviewed</b> — N comments</span></div>
+        <div class="tl-row"><span class="tl-date mono">[Date]</span><span class="tl-label"><b>Approved</b></span></div>
+      </div>
+
+      <div class="quote-box">
+        <b>Sanket's Review:</b> [Only include this box if a verdict/review is already on file in Notion — never write one yourself. Videos before ~mid-Sep 2026 legitimately have none; that's not a gap to fill.]
+      </div>
+
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">10</span></summary>
+          <div class="cb-body"><ul><li>[Comment]</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <div class="banner">
+    Every video gets its OWN category breakdown too, even if it duplicates the aggregate panel above — don't rely on the aggregate alone. A video with zero Frame.io comments (feedback given directly in Slack) states that plainly in the stats line instead of showing an empty breakdown. Badge order: verdict badge first (or "No verdict on file" in the muted style), then delivery-status badge.
+  </div>
+
+  <section>
+    <div class="section-title">Patterns Claude flagged</div>
+    <div class="flags">
+      <div class="flag"><span class="fi">01</span>[Strictly factual, data-derived recurrence — e.g. "category X repeated across drafts N and M." Never a value judgment or a "read" on what it means.]</div>
+    </div>
+  </section>
+  <div class="banner">
+    This is the ONE place interpretation-adjacent content is allowed, and only if it stays factual. No "What's working / To improve," no suggested action items, no "communication was strong" — Sanket reads the data live and gives his own take in the meeting. If a sentence needs a word like "concerning" or "strong" to make its point, it doesn't belong here.
+  </div>
+
+  <footer>Talking Heads · Editor Review System · [Month Year]</footer>
+</div>
