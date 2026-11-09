@@ -368,6 +368,26 @@
     .tl-line{grid-template-columns:1fr; gap:6px;} .tl-tag{width:52px;}
   }
 </style>
+<style id="polish3">
+  /* Sanket's verdict */
+  .vd{background:var(--surface); border:1.5px solid var(--gold); border-radius:22px; box-shadow:var(--shadow); padding:32px 32px 30px; display:flex; flex-direction:column; gap:30px;}
+  .vd-h{font-family:"Inter Tight","Inter",sans-serif; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px;}
+  .vd-fix{display:flex; flex-direction:column;}
+  .vd-item{display:grid; grid-template-columns:34px minmax(0,1fr); gap:6px 14px; padding:22px 0; border-top:1px solid var(--border);}
+  .vd-item:first-of-type{border-top:0; padding-top:12px;}
+  .vd-n{font-family:"Inter Tight","Inter",sans-serif; font-size:13px; font-weight:700; color:var(--accent); padding-top:5px;}
+  .vd-t{font-family:"Inter Tight","Inter",sans-serif; font-size:21px; font-weight:700; letter-spacing:-.02em; line-height:1.25;}
+  .vd-d{grid-column:2; font-size:15px; line-height:1.6; color:var(--text-muted);}
+  .vd-sub{grid-column:2; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:6px;}
+  .vd-sub > div{background:var(--surface-2); border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.55; color:var(--text-muted);}
+  .vd-sub b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--text); margin-bottom:4px;}
+  .vd-keep{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px;}
+  .vd-k{border-radius:16px; padding:16px 18px; background:color-mix(in srgb, var(--gr-green) 11%, var(--surface)); font-size:14px; line-height:1.55; color:var(--text-muted);}
+  .vd-k b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--gr-green); margin-bottom:4px;}
+  @media (max-width:760px){
+    .vd{padding:24px 20px;} .vd-sub,.vd-keep{grid-template-columns:1fr;} .vd-item{grid-template-columns:28px minmax(0,1fr);}
+  }
+</style>
 </head>
 <body>
 <style>
@@ -627,6 +647,35 @@
       <div class="flag"><span class="fi">04</span>Nigel: V1 went in on the Nov 5 deadline day, even with the kit changing several times along the way. V2 and V3 followed on Nov 6.</div>
       <div class="flag"><span class="fi">05</span>Retire NOW: color variety and color grading notes (the other James videos look more saturated).</div>
       <div class="flag"><span class="fi">06</span>15 Years went through its early cut, V1 and V2 with no comments from Sanket at all.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Sanket's verdict</div>
+    <div class="vd">
+      <div>
+        <div class="vd-h">Keep doing</div>
+        <div class="vd-keep">
+          <div class="vd-k"><b>Ownership</b>Takes on extra tasks beyond video editing. That's super high leverage, and we appreciate it.</div>
+          <div class="vd-k"><b>On time, and speaks up first</b>Always on time and communicates proactively.</div>
+          <div class="vd-k"><b>The benchmark for communication</b>In internal meetings, Saiyam is the standard for how we want editors to communicate. Keep doing that.</div>
+          <div class="vd-k"><b>Almost good to go</b>His James videos rarely need multiple rounds of changes.</div>
+          <div class="vd-k"><b>English</b>Really good on James's videos.</div>
+        </div>
+      </div>
+      <div class="vd-fix">
+        <div class="vd-h">Work on</div>
+        <div class="vd-item"><span class="vd-n">01</span><div class="vd-t">Quality of the AI B-roll</div>
+          <div class="vd-d">It might sound ironic, but sometimes it's awesome and sometimes it isn't.</div>
+          <div class="vd-sub"><div><b>When it works</b>Movie grade.</div><div><b>When it doesn't</b>Plasticky, like ChatGPT images that are obviously AI.</div></div>
+          <div class="vd-d">I'm not sure why it happens. His AI is usually good, so if the skill is there, why doesn't it show in all of them? Before sending V1, check whether it reads as AI and whether it looks realistic, and refine it, so the video clears in the first round.</div>
+        </div>
+        <div class="vd-item"><span class="vd-n">02</span><div class="vd-t">Information overload and too much stimulation</div>
+          <div class="vd-d">On one of the Nigel videos there was too much on screen.</div>
+          <div class="vd-sub"><div><b>Animated icons</b>Several on the screen at once.</div><div><b>Rough edges</b>Too evident.</div></div>
+          <div class="vd-d">I want him to build an eye for this, so he can tell for himself that it's too much and tone it down. That should cut the rounds of feedback and make the work easier for everyone.</div>
+        </div>
+      </div>
     </div>
   </section>
 
