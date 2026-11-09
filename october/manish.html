@@ -267,7 +267,7 @@
 <style id="polish">
   /* Deadline strip */
   .dl-wrap{background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:6px 28px 8px; box-shadow:var(--shadow);}
-  .dl-row{display:grid; grid-template-columns:minmax(0,2.3fr) .9fr .9fr minmax(170px,1.5fr) 1.3fr; gap:6px 22px; align-items:center; padding:20px 0; border-top:1px solid var(--border);}
+  .dl-row{display:grid; grid-template-columns:minmax(0,2.3fr) .9fr .9fr minmax(190px,1.7fr) 1.3fr; gap:6px 22px; align-items:center; padding:20px 0; border-top:1px solid var(--border);}
   .dl-row.dl-th{border-top:0; padding:16px 0 8px; font-family:"Inter Tight","Inter",sans-serif; font-size:11.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint);}
   .dl-name b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:16px; font-weight:700; letter-spacing:-.01em; line-height:1.25;}
   .dl-name span{display:block; font-size:12.5px; color:var(--text-faint); margin-top:3px;}
@@ -275,7 +275,7 @@
   .dl-cell{font-size:14.5px; font-weight:600; font-variant-numeric:tabular-nums;}
   .dl-cell i{display:none; font-style:normal; font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); font-weight:600; margin-bottom:4px;}
   .dl-fin{color:var(--text-muted); font-weight:500;}
-  .dl-pill{display:inline-block; border-radius:999px; padding:7px 14px; font-size:13px; font-weight:700; white-space:nowrap;}
+  .dl-pill{display:inline-block; max-width:100%; line-height:1.3; border-radius:999px; padding:7px 14px; font-size:13px; font-weight:700; white-space:nowrap;}
   .dl-pill.ok{color:var(--gr-green); background:color-mix(in srgb, var(--gr-green) 15%, var(--surface));}
   .dl-pill.late{color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 17%, var(--surface));}
   .dl-pill.moved{color:var(--gr-yellow); background:color-mix(in srgb, var(--gr-yellow) 15%, var(--surface));}
@@ -411,7 +411,7 @@
 
   <section>
     <div class="section-title">October at a glance</div>
-    <div class="dl-wrap"><div class="dl-row dl-th"><div>Video</div><div>Deadline</div><div>First draft</div><div>Result</div><div>Final</div></div><div class="dl-row"><div class="dl-name"><b>Begging You To Retire</b><span>Ari Taublieb</span><em>Deadline moved when Ari refilmed, new date not on file</em></div><div class="dl-cell"><i>Deadline</i>Nov 2</div><div class="dl-cell"><i>First draft</i>Nov 5</div><div class="dl-cell"><span class="dl-pill moved">Moved · 3 days past Nov 2</span></div><div class="dl-cell dl-fin"><i>Final</i>V2 Nov 7</div></div></div>
+    <div class="dl-wrap"><div class="dl-row dl-th"><div>Video</div><div>Deadline</div><div>First draft</div><div>Result</div><div>Final</div></div><div class="dl-row"><div class="dl-name"><b>Begging You To Retire</b><span>Ari Taublieb</span><em>Deadline moved when Ari refilmed, new date not on file</em></div><div class="dl-cell"><i>Deadline</i>Nov 2</div><div class="dl-cell"><i>First draft</i>Nov 5</div><div class="dl-cell"><span class="dl-pill moved">Moved · +3 days</span></div><div class="dl-cell dl-fin"><i>Final</i>V2 Nov 7</div></div></div>
     <div class="cal-wrap">
       <div class="month-label">October 2026</div><div class="cal-grid">
 <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
@@ -453,7 +453,7 @@
 </div><div class="month-label">November 2026 (to Nov 9)</div><div class="cal-grid">
 <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
 <div class="cal-cell"><div class="cal-date">1</div></div>
-<div class="cal-cell event"><div class="cal-date">2</div><div class="cal-chip due-moved">Due · BEG</div><div class="tip"><b>BEG</b>: Deadline — first draft Nov 5, moved · 3 days past nov 2. </div></div>
+<div class="cal-cell event"><div class="cal-date">2</div><div class="cal-chip due-moved">Due · BEG</div><div class="tip"><b>BEG</b>: Deadline — first draft Nov 5, moved · +3 days. </div></div>
 <div class="cal-cell"><div class="cal-date">3</div></div>
 <div class="cal-cell"><div class="cal-date">4</div></div>
 <div class="cal-cell event"><div class="cal-date">5</div><div class="cal-chip" style="background:var(--stage-submitted)">V1 · BEG</div><div class="tip"><b>BEG</b>: V1 submitted — <a href="https://f.io/gw0iTo8v" target="_blank" rel="noopener">f.io/gw0iTo8v</a>.</div><div class="cal-chip" style="background:var(--stage-review)">V1 rev · BEG</div><div class="tip"><b>BEG</b>: V1 reviewed (first half) — 50 comments.</div></div>
