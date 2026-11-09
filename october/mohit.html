@@ -368,6 +368,28 @@
     .tl-line{grid-template-columns:1fr; gap:6px;} .tl-tag{width:52px;}
   }
 </style>
+<style id="polish3">
+  /* Sanket's verdict */
+  .vd{background:var(--surface); border:1.5px solid var(--gold); border-radius:22px; box-shadow:var(--shadow); padding:32px 32px 30px; display:flex; flex-direction:column; gap:30px;}
+  .vd-h{font-family:"Inter Tight","Inter",sans-serif; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px;}
+  .vd-fix{display:flex; flex-direction:column;}
+  .vd-item{display:grid; grid-template-columns:34px minmax(0,1fr); gap:6px 14px; padding:22px 0; border-top:1px solid var(--border);}
+  .vd-item:first-of-type{border-top:0; padding-top:12px;}
+  .vd-n{font-family:"Inter Tight","Inter",sans-serif; font-size:13px; font-weight:700; color:var(--accent); padding-top:5px;}
+  .vd-t{font-family:"Inter Tight","Inter",sans-serif; font-size:21px; font-weight:700; letter-spacing:-.02em; line-height:1.25;}
+  .vd-d{grid-column:2; font-size:15px; line-height:1.6; color:var(--text-muted);}
+  .vd-sub{grid-column:2; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:6px;}
+  .vd-sub > div{background:var(--surface-2); border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.55; color:var(--text-muted);}
+  .vd-sub b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--text); margin-bottom:4px;}
+  .vd-keep{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px;}
+  .vd-k{border-radius:16px; padding:16px 18px; background:color-mix(in srgb, var(--gr-green) 11%, var(--surface)); font-size:14px; line-height:1.55; color:var(--text-muted);}
+  .vd-k b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--gr-green); margin-bottom:4px;}
+  .vd-pill{display:inline-block; vertical-align:middle; margin-left:12px; font-family:"Inter",sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.02em; color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 16%, var(--surface)); border-radius:999px; padding:4px 11px;}
+  .vd-sub ul{margin:6px 0 0; padding-left:18px;} .vd-sub li{margin:3px 0;}
+  @media (max-width:760px){
+    .vd{padding:24px 20px;} .vd-sub,.vd-keep{grid-template-columns:1fr;} .vd-item{grid-template-columns:28px minmax(0,1fr);}
+  }
+</style>
 </head>
 <body>
 <style>
@@ -620,6 +642,26 @@
       <div class="flag"><span class="fi">05</span>Gut Health: V1 went in on Oct 6 against an Oct 2 deadline, which was then reset to Oct 9.</div>
       <div class="flag"><span class="fi">06</span>Silva Method: V1 went in on Oct 27, two days before the Oct 29 deadline. V2 was submitted and approved on Oct 30.</div>
       <div class="flag"><span class="fi">07</span>The Nigel channel promo is not counted in this doc.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Sanket's verdict</div>
+    <div class="vd">
+      <div class="vd-fix">
+        <div class="vd-h">Work on</div>
+        <div class="vd-item"><span class="vd-n">01</span><div class="vd-t">Communication<span class="vd-pill">Most important</span></div>
+          <div class="vd-d">The Nigel promo video took far longer than we can explain.</div>
+          <div class="vd-sub">
+            <div><b>What happened</b><ul><li>A very short video, short compared to what editors usually cut, took multiple weeks.</li><li>We'd agreed to wrap it up before his leave, and that didn't happen.</li><li>No heads-up beforehand, which caused a lot of problems behind the scenes with the client.</li></ul></div>
+            <div><b>What we need</b><ul><li>Communicate everything proactively.</li><li>This is a first-time situation and it wasn't escalated. If it keeps happening again and again, it can't continue like this.</li></ul></div>
+          </div>
+          <div class="vd-d">It was a really bad outcome, and it set a bad example for the team.</div>
+        </div>
+        <div class="vd-item"><span class="vd-n">02</span><div class="vd-t">Pattern interrupters</div>
+          <div class="vd-d">This came up last time, in the video review and feedback round, and it's still there. It came up in both video reviews this round. We need to add more of them, and better ones.</div>
+        </div>
+      </div>
     </div>
   </section>
 
