@@ -368,6 +368,28 @@
     .tl-line{grid-template-columns:1fr; gap:6px;} .tl-tag{width:52px;}
   }
 </style>
+<style id="polish3">
+  /* Sanket's verdict */
+  .vd{background:var(--surface); border:1.5px solid var(--gold); border-radius:22px; box-shadow:var(--shadow); padding:32px 32px 30px; display:flex; flex-direction:column; gap:30px;}
+  .vd-h{font-family:"Inter Tight","Inter",sans-serif; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px;}
+  .vd-fix{display:flex; flex-direction:column;}
+  .vd-item{display:grid; grid-template-columns:34px minmax(0,1fr); gap:6px 14px; padding:22px 0; border-top:1px solid var(--border);}
+  .vd-item:first-of-type{border-top:0; padding-top:12px;}
+  .vd-n{font-family:"Inter Tight","Inter",sans-serif; font-size:13px; font-weight:700; color:var(--accent); padding-top:5px;}
+  .vd-t{font-family:"Inter Tight","Inter",sans-serif; font-size:21px; font-weight:700; letter-spacing:-.02em; line-height:1.25;}
+  .vd-d{grid-column:2; font-size:15px; line-height:1.6; color:var(--text-muted);}
+  .vd-sub{grid-column:2; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:6px;}
+  .vd-sub > div{background:var(--surface-2); border-radius:14px; padding:14px 16px; font-size:14px; line-height:1.55; color:var(--text-muted);}
+  .vd-sub b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--text); margin-bottom:4px;}
+  .vd-keep{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px;}
+  .vd-k{border-radius:16px; padding:16px 18px; background:color-mix(in srgb, var(--gr-green) 11%, var(--surface)); font-size:14px; line-height:1.55; color:var(--text-muted);}
+  .vd-k b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--gr-green); margin-bottom:4px;}
+  .vd-pill{display:inline-block; vertical-align:middle; margin-left:12px; font-family:"Inter",sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.02em; color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 16%, var(--surface)); border-radius:999px; padding:4px 11px;}
+  .vd-sub ul{margin:6px 0 0; padding-left:18px;} .vd-sub li{margin:3px 0;}
+  @media (max-width:760px){
+    .vd{padding:24px 20px;} .vd-sub,.vd-keep{grid-template-columns:1fr;} .vd-item{grid-template-columns:28px minmax(0,1fr);}
+  }
+</style>
 </head>
 <body>
 <style>
@@ -572,6 +594,37 @@
       <div class="flag"><span class="fi">05</span>Spacing and alignment notes were frequent, letter spacing on the chapter cards in V2 especially.</div>
       <div class="flag"><span class="fi">06</span>V2 earned real praise for a B-roll sequence, "super realistic", with help from Sharan on the AI B-roll.</div>
       <div class="flag"><span class="fi">07</span>The deadline was Nov 2 and moved when Ari refilmed. V1 went in on Nov 5 and V2 on Nov 7, with Saiyam helping on a few animations.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Sanket's verdict</div>
+    <div class="vd">
+      <div>
+        <div class="vd-h">Keep doing</div>
+        <div class="vd-keep">
+          <div class="vd-k"><b>Style, colors and fonts</b>Understands them really well.</div>
+          <div class="vd-k"><b>AI heroes</b>Worked with Sharan and Saiyam to learn them and absolutely nailed them. They look super good in the first video.</div>
+          <div class="vd-k"><b>Communication</b>Super good. He communicated really well about the refilm.</div>
+          <div class="vd-k"><b>Updates and ETAs</b>Pretty accurate.</div>
+          <div class="vd-k"><b>Title case and sentence case</b>Already doing well. I don't have to keep telling him.</div>
+        </div>
+      </div>
+      <div class="vd-fix">
+        <div class="vd-h">Work on</div>
+        <div class="vd-item"><span class="vd-n">01</span><div class="vd-t">Put the effort in the right direction</div>
+          <div class="vd-sub"><div><b>Don't rework</b>Templates that were already approved in the creator identity kit. That was a waste of time.</div><div><b>Do spend effort on</b>The custom animations and graphics, not on improving something that already works.</div></div>
+        </div>
+        <div class="vd-item"><span class="vd-n">02</span><div class="vd-t">Simple animation concepts</div>
+          <div class="vd-d">Simplify the concept visually. We went through how we want the animations to look in the first video itself. Take inspiration from the previous videos. There's a proper style for James and Ari that we need to follow to keep them simple.</div>
+        </div>
+        <div class="vd-item"><span class="vd-n">03</span><div class="vd-t">Sync the animations with the audio</div>
+          <div class="vd-d">The explanation animations and calculations are sometimes out of sync. Sometimes everything comes in all at once, sometimes it doesn't, and it's a little off. Sync helps the viewer understand. When the animation doesn't match the audio, it looks weird and confusing.</div>
+        </div>
+        <div class="vd-item"><span class="vd-n">04</span><div class="vd-t">Zoom-ins</div>
+          <div class="vd-d">Can be improved.</div>
+        </div>
+      </div>
     </div>
   </section>
 
