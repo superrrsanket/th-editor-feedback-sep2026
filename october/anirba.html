@@ -284,12 +284,14 @@
   .cal-chip.due-late{background:var(--gr-red) !important; color:#2a0507;}
   .cal-chip.due-moved{background:var(--gr-yellow) !important; color:#2a1f00;}
   @media (max-width:760px){
-    .dl-wrap{padding:4px 18px 6px;}
-    .dl-row{grid-template-columns:1fr 1fr; gap:14px 18px;}
+    .dl-wrap{padding:4px 20px 6px;}
+    .dl-row{grid-template-columns:1fr 1fr 1fr; gap:12px 16px; padding:22px 0;}
     .dl-row.dl-th{display:none;}
-    .dl-name{grid-column:1/-1;}
+    .dl-name,.dl-cell:nth-of-type(4){grid-column:1/-1;}
+    .dl-cell:nth-of-type(4){order:1;}
+    .dl-cell:not(:nth-of-type(4)){order:2;}
     .dl-cell i{display:block;}
-    .dl-cell:nth-of-type(3){grid-column:1/-1;}
+    .dl-fin{font-size:13.5px;}
   }
   /* Spacing and rhythm */
   .page{gap:60px;}
@@ -326,7 +328,7 @@
 
   <section>
     <div class="section-title">October at a glance</div>
-    <div class="dl-wrap"><div class="dl-row dl-th"><div>Video</div><div>Deadline</div><div>First draft</div><div>Result</div><div>Final</div></div><div class="dl-row"><div class="dl-name"><b>5 Levels of Marketing</b><span>Vishen Lakhiani</span><em>Held on deadline day, waiting on assets</em></div><div class="dl-cell"><i>Deadline</i>Oct 9</div><div class="dl-cell"><i>First draft</i>Oct 12</div><div class="dl-cell"><span class="dl-pill late">Late · 3 days</span></div><div class="dl-cell dl-fin"><i>Final</i>Cleared Oct 14</div></div><div class="dl-row"><div class="dl-name"><b>Understand Marketing</b><span>Nigel Botterill</span></div><div class="dl-cell"><i>Deadline</i>Nov 5</div><div class="dl-cell"><i>First draft</i>Nov 5</div><div class="dl-cell"><span class="dl-pill ok">On time · on the day</span></div><div class="dl-cell dl-fin"><i>Final</i>Final Nov 7</div></div></div>
+    <div class="dl-wrap"><div class="dl-row dl-th"><div>Video</div><div>Deadline</div><div>First draft</div><div>Result</div><div>Final</div></div><div class="dl-row"><div class="dl-name"><b>5 Levels of Marketing</b><span>Vishen Lakhiani</span><em>Held on deadline day, waiting on assets</em></div><div class="dl-cell"><i>Deadline</i>Oct 9</div><div class="dl-cell"><i>First draft</i>Oct 12</div><div class="dl-cell"><span class="dl-pill late">Late · 3 days</span></div><div class="dl-cell dl-fin"><i>Final</i>Cleared Oct 14</div></div><div class="dl-row"><div class="dl-name"><b>Understand Marketing</b><span>Nigel Botterill</span></div><div class="dl-cell"><i>Deadline</i>Nov 5</div><div class="dl-cell"><i>First draft</i>Nov 5</div><div class="dl-cell"><span class="dl-pill ok">On time · on the day</span></div><div class="dl-cell dl-fin"><i>Final</i>Nov 7</div></div></div>
     <div class="cal-wrap">
       <div class="month-label">October 2026</div><div class="cal-grid">
 <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
