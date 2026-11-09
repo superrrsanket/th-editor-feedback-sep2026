@@ -307,6 +307,67 @@
   .video-title a{text-decoration-thickness:1px; text-underline-offset:5px;}
   .ap,.flag{padding-top:18px; padding-bottom:18px;}
 </style>
+<style id="polish2">
+  /* Action points */
+  .ap2-wrap{background:var(--surface); border:1px solid var(--border); border-radius:22px; box-shadow:var(--shadow); padding:6px 28px;}
+  .ap2{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr); gap:16px 36px; align-items:center; padding:24px 0; border-top:1px solid var(--border);}
+  .ap2:first-child{border-top:0;}
+  .ap2-ask{display:flex; gap:16px; align-items:baseline;}
+  .ap2-n{font-family:"Inter Tight","Inter",sans-serif; font-size:13px; font-weight:700; color:var(--accent); letter-spacing:.04em;}
+  .ap2-t{font-family:"Inter Tight","Inter",sans-serif; font-size:19px; font-weight:700; letter-spacing:-.015em; line-height:1.3;}
+  .ap2-ms{display:flex; flex-wrap:wrap; gap:14px 36px;}
+  .ap2-m{display:flex; flex-direction:column; gap:7px; min-width:150px;}
+  .ap2-l{font-size:12px; color:var(--text-faint); font-weight:600;}
+  .ap2-v{display:flex; align-items:baseline; gap:10px; font-family:"Inter Tight","Inter",sans-serif; font-variant-numeric:tabular-nums;}
+  .ap2-v .was{font-size:20px; font-weight:600; color:var(--text-faint);}
+  .ap2-v .arr{font-size:15px; color:var(--text-faint);}
+  .ap2-v .now{font-size:34px; font-weight:800; letter-spacing:-.03em; line-height:1;}
+  .now.good{color:var(--gr-green);} .now.bad{color:var(--gr-red);} .now.flat{color:var(--text);}
+  .ap2-pill{align-self:flex-start; border-radius:999px; padding:4px 11px; font-size:12px; font-weight:700; white-space:nowrap;}
+  .ap2-pill.good{color:var(--gr-green); background:color-mix(in srgb, var(--gr-green) 15%, var(--surface));}
+  .ap2-pill.bad{color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 17%, var(--surface));}
+  .ap2-pill.flat{color:var(--text-muted); background:var(--surface-2);}
+  .ap2-none{font-size:13.5px; color:var(--text-muted); line-height:1.5;}
+  /* Comparison */
+  .cmp{background:var(--surface); border:1px solid var(--border); border-radius:22px; box-shadow:var(--shadow); padding:6px 28px;}
+  .cmp-row{display:grid; grid-template-columns:minmax(120px,1fr) minmax(0,2.6fr) 84px; gap:10px 28px; align-items:center; padding:20px 0; border-top:1px solid var(--border);}
+  .cmp-row:first-child{border-top:0;}
+  .cmp-label{font-size:14px; font-weight:600; line-height:1.35;}
+  .cmp-lines{display:flex; flex-direction:column; gap:9px;}
+  .cmp-line{display:flex; align-items:center; gap:12px; min-height:22px;}
+  .cmp-line em{font-style:normal; width:36px; flex-shrink:0; font-size:11.5px; font-weight:600; color:var(--text-faint);}
+  .cmp-track{flex:1; height:12px; border-radius:999px; background:var(--surface-2); overflow:hidden;}
+  .cmp-fill{height:100%; border-radius:999px;}
+  .cmp-fill.a{background:var(--border-strong);} .cmp-fill.b{background:var(--accent);}
+  .cmp-line b{width:44px; text-align:right; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; font-weight:700; font-variant-numeric:tabular-nums;}
+  .cmp-d{justify-self:end; font-size:12.5px; font-weight:700; border-radius:999px; padding:5px 11px; white-space:nowrap;}
+  .cmp-d:empty{display:none;}
+  .cmp-d.good{color:var(--gr-green); background:color-mix(in srgb, var(--gr-green) 15%, var(--surface));}
+  .cmp-d.bad{color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 17%, var(--surface));}
+  .cmp-d.flat{color:var(--text-muted); background:var(--surface-2);}
+  .cmp-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .cmp-cat{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; border-radius:999px; padding:5px 12px; background:color-mix(in srgb, var(--c) 14%, var(--surface)); color:var(--text);}
+  .cmp-cat i{width:8px; height:8px; border-radius:50%; background:var(--c);}
+  .cmp-cat b{font-family:"Inter Tight","Inter",sans-serif; font-weight:800;}
+  .cmp-cats .cmp-line{align-items:flex-start;} .cmp-cats .cmp-line em{padding-top:6px;}
+  /* Review TLDR */
+  .rv-head{font-family:"Inter Tight","Inter",sans-serif; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gold-ink); margin-bottom:14px;}
+  .tldr{display:flex; flex-direction:column; gap:12px; padding-bottom:20px; margin-bottom:18px; border-bottom:1px solid var(--border);}
+  .tl-line{display:grid; grid-template-columns:52px minmax(0,1fr); gap:14px; align-items:baseline;}
+  .tl-tag{font-size:11.5px; font-weight:800; letter-spacing:.04em; text-align:center; border-radius:999px; padding:4px 0;}
+  .tl-line.good .tl-tag{color:var(--gr-green); background:color-mix(in srgb, var(--gr-green) 15%, var(--surface));}
+  .tl-line.fix .tl-tag{color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 17%, var(--surface));}
+  .tl-txt{font-size:15.5px; line-height:1.5; font-weight:500;}
+  .rv-full{color:var(--text-muted); font-size:13.5px; line-height:1.65;}
+  .rv-full p{margin:0 0 10px !important;} .rv-full p:last-child{margin-bottom:0 !important;}
+  @media (max-width:760px){
+    .ap2-wrap,.cmp{padding:4px 20px;}
+    .ap2{grid-template-columns:1fr;}
+    .cmp-row{grid-template-columns:1fr auto; gap:12px;}
+    .cmp-lines{grid-column:1/-1; order:3;}
+    .tl-line{grid-template-columns:1fr; gap:6px;} .tl-tag{width:52px;}
+  }
+</style>
 </head>
 <body>
 <style>
@@ -395,19 +456,12 @@
 
   <section>
     <div class="section-title">Last cycle's action points — what the comments show</div>
-    <div class="ap"><span class="ap-n">01</span>Cut down minor errors: frame glitches and title/sentence case.<div class="ap-m"><span>Frame glitches: Sept <b>5</b> → Oct <b>1</b></span><span>Title case / sentence case: Sept <b>7</b> → Oct <b>9</b></span></div></div><div class="ap"><span class="ap-n">02</span>Layout and spacing.<div class="ap-m"><span>Spacing / alignment: Sept <b>8</b> → Oct <b>19</b></span></div></div>
+    <div class="ap2-wrap"><div class="ap2"><div class="ap2-ask"><span class="ap2-n">01</span><span class="ap2-t">Cut down minor errors: frame glitches and title/sentence case.</span></div><div class="ap2-ms"><div class="ap2-m"><div class="ap2-l">Frame glitches</div><div class="ap2-v"><span class="was">5</span><span class="arr">→</span><span class="now good">1</span></div><span class="ap2-pill good">▼ 95% per video</span></div><div class="ap2-m"><div class="ap2-l">Title case / sentence case</div><div class="ap2-v"><span class="was">7</span><span class="arr">→</span><span class="now good">9</span></div><span class="ap2-pill good">▼ 68% per video</span></div></div></div><div class="ap2"><div class="ap2-ask"><span class="ap2-n">02</span><span class="ap2-t">Layout and spacing.</span></div><div class="ap2-ms"><div class="ap2-m"><div class="ap2-l">Spacing / alignment</div><div class="ap2-v"><span class="was">8</span><span class="arr">→</span><span class="now good">19</span></div><span class="ap2-pill good">▼ 41% per video</span></div></div></div></div>
   </section>
 
   <section>
     <div class="section-title">Compared with the September doc</div>
-    <table class="tbl">
-      <tr><th>Measure</th><th class="num">September</th><th class="num">October (to Nov 9)</th></tr>
-      <tr><td>Videos with Frame.io comments</td><td class="num">1</td><td class="num">4</td></tr>
-      <tr><td>Total comments</td><td class="num">77</td><td class="num">165</td></tr>
-      <tr><td>Comments per video</td><td class="num">77</td><td class="num">41.3</td></tr>
-      <tr><td>Review rounds per video</td><td class="num">4</td><td class="num">2.75</td></tr>
-      <tr><td>Largest categories</td><td class="num" style="font-family:Inter,sans-serif;text-align:right">Motion 24, Layout 14</td><td class="num" style="font-family:Inter,sans-serif;text-align:right">Motion &amp; animation 33, Typography 30</td></tr>
-    </table>
+    <div class="cmp"><div class="cmp-row"><div class="cmp-label">Videos with Frame.io comments</div><div class="cmp-lines"><div class="cmp-line"><em>Sept</em><div class="cmp-track"><div class="cmp-fill a" style="width:25%"></div></div><b>1</b></div><div class="cmp-line"><em>Oct</em><div class="cmp-track"><div class="cmp-fill b" style="width:100%"></div></div><b>4</b></div></div><div class="cmp-d flat">▲ 300%</div></div><div class="cmp-row"><div class="cmp-label">Total comments</div><div class="cmp-lines"><div class="cmp-line"><em>Sept</em><div class="cmp-track"><div class="cmp-fill a" style="width:47%"></div></div><b>77</b></div><div class="cmp-line"><em>Oct</em><div class="cmp-track"><div class="cmp-fill b" style="width:100%"></div></div><b>165</b></div></div><div class="cmp-d flat">▲ 114%</div></div><div class="cmp-row"><div class="cmp-label">Comments per video</div><div class="cmp-lines"><div class="cmp-line"><em>Sept</em><div class="cmp-track"><div class="cmp-fill a" style="width:100%"></div></div><b>77</b></div><div class="cmp-line"><em>Oct</em><div class="cmp-track"><div class="cmp-fill b" style="width:54%"></div></div><b>41.3</b></div></div><div class="cmp-d good">▼ 46%</div></div><div class="cmp-row"><div class="cmp-label">Review rounds per video</div><div class="cmp-lines"><div class="cmp-line"><em>Sept</em><div class="cmp-track"><div class="cmp-fill a" style="width:100%"></div></div><b>4</b></div><div class="cmp-line"><em>Oct</em><div class="cmp-track"><div class="cmp-fill b" style="width:69%"></div></div><b>2.75</b></div></div><div class="cmp-d good">▼ 31%</div></div><div class="cmp-row cmp-cats"><div class="cmp-label">Largest categories</div><div class="cmp-lines"><div class="cmp-line"><em>Sept</em><div class="cmp-chips"><span class="cmp-cat" style="--c:var(--cat-motion)"><i></i>Motion <b>24</b></span><span class="cmp-cat" style="--c:var(--cat-layout)"><i></i>Layout <b>14</b></span></div></div><div class="cmp-line"><em>Oct</em><div class="cmp-chips"><span class="cmp-cat" style="--c:var(--cat-motion)"><i></i>Motion &amp; animation <b>33</b></span><span class="cmp-cat" style="--c:var(--cat-type)"><i></i>Typography <b>30</b></span></div></div></div><div class="cmp-d"></div></div></div>
   </section>
 
     <section>
@@ -483,10 +537,10 @@ create a parented null &amp; do it, will be much easier" (V2)</li><li>"this whol
         <div class="tl-row"><span class="tl-date mono">Oct 13</span><span class="tl-label"><b>Approved</b></span></div>
       </div>
 
-      <div class="quote-box">
-        <p style="margin:0 0 8px"><b>Sanket's Review:</b> I like the first draft: the animations were good, and I especially liked that he didn't overcomplicate it. Any editor could have piled on fancy animation here, and he stuck with simple, clean ones. A few minor things to fix: the supers didn't feel quite right, probably from context switching between lines. A super that jumps between separate lines looks abrupt, and one line reads much cleaner. Shadows and sentence case could have been handled better, and there was some title case vs sentence case confusion, with title case in the quote and in the pointers where we normally use sentence case. There were also fewer pattern interruptors than I'd like, so we can add more through the video and at the end.</p>
+      <div class="quote-box"><div class="rv-head">Sanket's review</div><div class="tldr"><div class="tl-line good"><span class="tl-tag">Good</span><span class="tl-txt">Simple, clean animations. He didn't overcomplicate it.</span></div><div class="tl-line fix"><span class="tl-tag">Fix</span><span class="tl-txt">Supers jumping between lines, shadows, title vs sentence case, and more pattern interruptors.</span></div></div><div class="rv-full">
+        <p style="margin:0 0 8px">I like the first draft: the animations were good, and I especially liked that he didn't overcomplicate it. Any editor could have piled on fancy animation here, and he stuck with simple, clean ones. A few minor things to fix: the supers didn't feel quite right, probably from context switching between lines. A super that jumps between separate lines looks abrupt, and one line reads much cleaner. Shadows and sentence case could have been handled better, and there was some title case vs sentence case confusion, with title case in the quote and in the pointers where we normally use sentence case. There were also fewer pattern interruptors than I'd like, so we can add more through the video and at the end.</p>
         <p style="margin:0">V2 (Oct 12): only minor comments left, and I liked that he added extra pattern interruptors.</p>
-      </div>
+      </div></div>
 
       <div class="note" style="margin-top:14px">Comments by round: V1 29 · V2 12 · V3 3</div><div class="catbars">
         <details class="catbar" style="--cb-c:var(--cat-motion)">
@@ -541,9 +595,9 @@ create a parented null &amp; do it, will be much easier" (V2)</li><li>"this whol
         <div class="tl-row"><span class="tl-date mono">Oct 23</span><span class="tl-label"><b>Good to go</b></span></div>
       </div>
 
-      <div class="quote-box">
-        <p style="margin:0"><b>Sanket's Review:</b> V1 sent Oct 20. Overall clean, but there were a lot of spacing issues that could have been caught while editing, before sending. Zoom-ins and zoom-outs were few or very subtle. Subtle is good, but we also need to use zooms and jump cuts to hide cuts and to emphasize sentences, and that was lacking. There was too much information and the content could have been more refined. For example, the hook had one graphic packed with information, and a hook should lean on visuals more than information. I really loved the AI heroes: they looked realistic, and he kept the character consistent. The colors also looked very different from the CIK, which I'll ask him about. There were a lot of minor mistakes that could have been fixed easily.</p>
-      </div>
+      <div class="quote-box"><div class="rv-head">Sanket's review</div><div class="tldr"><div class="tl-line good"><span class="tl-tag">Good</span><span class="tl-txt">Realistic AI heroes, and the character stayed consistent. Overall clean.</span></div><div class="tl-line fix"><span class="tl-tag">Fix</span><span class="tl-txt">Spacing issues he should've caught before sending, too few zooms and jump cuts, an overloaded hook, colors off from the CIK.</span></div></div><div class="rv-full">
+        <p style="margin:0">V1 sent Oct 20. Overall clean, but there were a lot of spacing issues that could have been caught while editing, before sending. Zoom-ins and zoom-outs were few or very subtle. Subtle is good, but we also need to use zooms and jump cuts to hide cuts and to emphasize sentences, and that was lacking. There was too much information and the content could have been more refined. For example, the hook had one graphic packed with information, and a hook should lean on visuals more than information. I really loved the AI heroes: they looked realistic, and he kept the character consistent. The colors also looked very different from the CIK, which I'll ask him about. There were a lot of minor mistakes that could have been fixed easily.</p>
+      </div></div>
 
       <div class="note" style="margin-top:14px">Comments by round: V1 42 · V2 11</div><div class="catbars">
         <details class="catbar" style="--cb-c:var(--cat-layout)">
@@ -611,9 +665,9 @@ Fix the font weights, line spacing as per the ref's shared earlier" (V2)</li></u
         <div class="tl-row"><span class="tl-date mono">Nov 2</span><span class="tl-label"><b>V3 reviewed</b> <span class="tl-note">— 4 comments</span></span></div>
       </div>
 
-      <div class="quote-box">
-        <p style="margin:0"><b>Sanket's Review:</b> Really solid video overall. I really liked it. The animations were accurate, the grammar was good, and he picked really good concepts to animate. One or two of the animation concepts could have been better, or maybe different ones, and the AI videos could have been better. Nothing much to improve beyond that.</p>
-      </div>
+      <div class="quote-box"><div class="rv-head">Sanket's review</div><div class="tldr"><div class="tl-line good"><span class="tl-tag">Good</span><span class="tl-txt">Accurate animations, good grammar, good concepts.</span></div><div class="tl-line fix"><span class="tl-tag">Fix</span><span class="tl-txt">A couple of animation concepts, and the AI videos.</span></div></div><div class="rv-full">
+        <p style="margin:0">Really solid video overall. I really liked it. The animations were accurate, the grammar was good, and he picked really good concepts to animate. One or two of the animation concepts could have been better, or maybe different ones, and the AI videos could have been better. Nothing much to improve beyond that.</p>
+      </div></div>
 
       <div class="note" style="margin-top:14px">Comments by round: V1 20 · V2 10 · V3 4</div><div class="catbars">
         <details class="catbar" style="--cb-c:var(--cat-type)">
@@ -669,9 +723,9 @@ Fix the font weights, line spacing as per the ref's shared earlier" (V2)</li></u
         <div class="tl-row"><span class="tl-date mono">Nov 6</span><span class="tl-label"><b>V3 revisions submitted</b> <span class="tl-note">— <a href="https://f.io/TcREET6u" target="_blank" rel="noopener">f.io/TcREET6u</a>, <a href="https://f.io/LLweLdaD" target="_blank" rel="noopener">f.io/LLweLdaD</a></span></span></div>
       </div>
 
-      <div class="quote-box">
-        <p style="margin:0"><b>Sanket's Review:</b> Really good video. I liked that he innovated with the graphics, and the AI B-roll was amazing, super realistic. Three things to improve. First, we used the rectangle bar graph too many times. Different kinds of graphs would have been a lot better than a bar graph every time. Second, the screen recording looked very small. It's easy enough to see on a laptop, a bit harder even there, and on a phone it will be super hard to see. Let's take care of that from the next video. Third, color variety came up again and again in my comments. Almost every animation is beige and brown. That is the palette, but adding black and dark brown gives more variety and contrast instead of a monochrome look.</p>
-      </div>
+      <div class="quote-box"><div class="rv-head">Sanket's review</div><div class="tldr"><div class="tl-line good"><span class="tl-tag">Good</span><span class="tl-txt">Innovative graphics and super realistic AI B-roll.</span></div><div class="tl-line fix"><span class="tl-tag">Fix</span><span class="tl-txt">Bar graph used too often, screen recording too small, and the beige and brown palette needs more variety.</span></div></div><div class="rv-full">
+        <p style="margin:0">Really good video. I liked that he innovated with the graphics, and the AI B-roll was amazing, super realistic. Three things to improve. First, we used the rectangle bar graph too many times. Different kinds of graphs would have been a lot better than a bar graph every time. Second, the screen recording looked very small. It's easy enough to see on a laptop, a bit harder even there, and on a phone it will be super hard to see. Let's take care of that from the next video. Third, color variety came up again and again in my comments. Almost every animation is beige and brown. That is the palette, but adding black and dark brown gives more variety and contrast instead of a monochrome look.</p>
+      </div></div>
 
       <div class="note" style="margin-top:14px">Comments by round: V1 23 · V2 9 · V3 2</div><div class="catbars">
         <details class="catbar" style="--cb-c:var(--cat-motion)">
