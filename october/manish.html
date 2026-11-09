@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manish Chauhan — October Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f6; --surface:#ffffff; --surface-2:#f1f1ef;
+    --border:#e2e2e0; --border-strong:#cccccb;
+    --text:#1c1c1b; --text-muted:#5c5c5a; --text-faint:#8c8c89;
+    --accent:#2f5fdb; --accent-soft:#eef2fd;
+
+    --stage-assigned:#75756f; --stage-acut:#16847a; --stage-submitted:#7c5cd6;
+    --stage-review:#2f6fd6; --stage-approved:#2f9e57;
+
+    --cat-content:#c9564f; --cat-motion:#7f70c9; --cat-type:#4d7fc4; --cat-layout:#c98f3f;
+    --cat-coord:#2f9488; --cat-color:#bd5a82; --cat-audio:#a8863d; --cat-praise:#469463;
+
+    --v-solid:#2f6fd6; --v-standard:#8c8c89; --v-poor:#8a4a2f;
+    --status-ontime:#2f9e57; --status-delayed:#c07a1e;
+    --gr-green:#22c55e; --gr-yellow:#eab308; --gr-red:#ef4444;
+
+    color-scheme: light;
+  }
+  
+  
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    margin:0; padding-inline:20px; padding-block:32px;
+    line-height:1.5;
+  }
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent;}
+  a:hover{border-bottom-color:currentColor;}
+  .video-title a{color:var(--text); text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px; cursor:pointer;}
+  .video-title a:hover{color:var(--accent); text-decoration-color:var(--accent);}
+  .tip a{color:var(--bg); border-bottom-color:rgba(255,255,255,.4);}
+  .page{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:32px;}
+  .mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
+
+  .hdr-eyebrow{font-size:13px; font-weight:600; color:var(--accent); letter-spacing:.04em; text-transform:uppercase;}
+  h1{font-size:32px; font-weight:800; margin:6px 0 16px; letter-spacing:-0.01em;}
+  .hdr-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media (max-width:560px){.hdr-stats{grid-template-columns:1fr;}}
+  .stat{background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--border-strong); border-radius:10px; padding:16px 18px;}
+  .stat .n{font-family:"IBM Plex Mono",monospace; font-size:38px; font-weight:700; line-height:1;}
+  .stat .l{font-size:13px; color:var(--text-muted); margin-top:6px;}
+  .stat.green{border-left-color:var(--gr-green);} .stat.green .n{color:var(--gr-green);}
+  .stat.yellow{border-left-color:var(--gr-yellow);} .stat.yellow .n{color:var(--gr-yellow);}
+  .stat.red{border-left-color:var(--gr-red);} .stat.red .n{color:var(--gr-red);}
+
+  section{display:flex; flex-direction:column; gap:14px;}
+  .section-title{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted);}
+  .month-label{font-size:12.5px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; margin-top:14px;}
+  .month-label:first-child{margin-top:0;}
+
+  .cal-wrap{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:8px;}
+  .cal-dow{font-size:12.5px; font-weight:600; color:var(--text-faint); text-align:center; text-transform:uppercase; letter-spacing:.04em; padding-bottom:4px;}
+  .cal-cell{position:relative; min-height:128px; border-radius:9px; background:var(--surface-2); border:1px solid transparent; padding:8px; display:flex; flex-direction:column; gap:3px;}
+  .cal-cell.empty{background:transparent;}
+  .cal-date{font-family:"IBM Plex Mono",monospace; font-size:13.5px; color:var(--text-faint);}
+  .cal-cell.event{border-color:var(--border);}
+  .cal-chip{font-size:9.5px; font-weight:600; line-height:1.25; padding:2px 5px; border-radius:5px; color:#fff; letter-spacing:.01em;}
+  .cal-cell .tip{
+    display:none; position:absolute; z-index:5; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    width:250px; background:var(--text); color:var(--bg); font-family:"Inter",sans-serif; font-size:12px; line-height:1.4;
+    padding:9px 11px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:left; font-weight:500;
+  }
+  .cal-cell.event:hover .tip{display:block;}
+  .cal-cell.event:hover{border-color:var(--border-strong);}
+  .legend{display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; margin-top:6px; font-size:12.5px; color:var(--text-muted);}
+  @media (max-width:480px){.legend{grid-template-columns:1fr;}}
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .legend-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+  .legend-key{font-size:11.5px; color:var(--text-faint); margin-top:10px;}
+
+  .catbars{display:flex; flex-direction:column; gap:2px;}
+  .catbar{border-top:1px solid var(--border);}
+  .catbar:first-child{border-top:none;}
+  .catbar summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:10px 2px;}
+  .catbar summary::-webkit-details-marker{display:none;}
+  .catbar summary .arrow{font-size:10px; color:var(--text-faint); width:10px; flex-shrink:0; transition:transform .15s;}
+  .catbar[open] summary .arrow{transform:rotate(90deg);}
+  .catbar summary .cb-label{font-size:13.5px; font-weight:600; width:150px; flex-shrink:0; color:var(--cb-c,var(--text));}
+  .catbar summary .cb-track{flex:1; height:8px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+  .catbar summary .cb-fill{height:100%; background:var(--cb-c,var(--accent)); border-radius:4px;}
+  .catbar summary .cb-count{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:13px; width:28px; text-align:right; flex-shrink:0; color:var(--text-muted);}
+  .catbar .cb-body{padding:0 2px 14px 162px; font-size:13.5px; line-height:1.55;}
+  @media (max-width:560px){
+    .catbar summary{flex-wrap:wrap;}
+    .catbar summary .cb-label{width:100%; order:1;}
+    .catbar summary .cb-track{order:2;}
+    .catbar summary .cb-count{order:3;}
+    .catbar .cb-body{padding-left:2px;}
+  }
+  .cb-group{margin-bottom:8px;}
+  .cb-group .cb-video{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); margin-bottom:2px;}
+  .cb-body ul{margin:0; padding-left:16px;}
+  .cb-body li{margin-bottom:3px;}
+  .cb-body li i{color:var(--text-muted); font-style:italic;}
+
+  .video{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
+  .video-hdr{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px;}
+  .video-title{font-size:18px; font-weight:700; letter-spacing:-.005em;}
+  .video-client{font-size:12.5px; color:var(--text-muted); margin-top:2px;}
+  .badge{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:5px; border-left:3px solid; letter-spacing:.01em; white-space:nowrap;}
+  .b-standard{color:var(--v-standard); background:var(--surface-2); border-color:var(--v-standard);}
+  .b-none{color:var(--text-faint); background:var(--surface-2); border-color:var(--border-strong);}
+  .b-ontime{color:var(--status-ontime); background:var(--surface-2); border-color:var(--status-ontime);}
+  .b-delayed{color:var(--status-delayed); background:var(--surface-2); border-color:var(--status-delayed);}
+
+  .video-stats{display:flex; gap:24px; margin-top:14px; font-size:13px; color:var(--text-muted); flex-wrap:wrap;}
+  .video-stats b{color:var(--text); font-family:"IBM Plex Mono",monospace; font-weight:600;}
+
+  .timeline{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:7px;}
+  .tl-row{display:flex; gap:12px; font-size:13.5px; align-items:baseline;}
+  .tl-date{font-family:"IBM Plex Mono",monospace; color:var(--text-muted); width:56px; flex-shrink:0;}
+  .tl-label b{font-weight:600;}
+  .tl-label .tl-note{color:var(--text-faint);}
+
+  .video .catbars{margin-top:16px; padding-top:4px; border-top:1px solid var(--border);}
+
+  .flags{display:flex; flex-direction:column; gap:10px;}
+  .flag{display:flex; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; font-size:14px;}
+  .flag .fi{font-family:"IBM Plex Mono",monospace; color:var(--text-faint); flex-shrink:0;}
+
+  .quote-box{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 18px; font-size:14px; line-height:1.6; color:var(--text);}
+
+  footer{color:var(--text-faint); font-size:12px; text-align:center; padding-top:8px;}
+</style>
+<style>
+  .tbl{width:100%; border-collapse:collapse; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  .tbl th{font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--text-faint); text-align:left; padding:10px 14px; background:var(--surface-2); font-weight:700;}
+  .tbl td{padding:10px 14px; border-top:1px solid var(--border); vertical-align:top;}
+  .tbl td.num, .tbl th.num{text-align:right; font-family:"IBM Plex Mono",monospace; white-space:nowrap;}
+  .tbl .sub{color:var(--text-faint); font-size:12px;}
+  .ap{background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:10px; padding:12px 16px; font-size:14px; margin-bottom:10px;}
+  .ap .ap-n{font-family:"IBM Plex Mono",monospace; color:var(--accent); margin-right:10px;}
+  .ap .ap-m{margin-top:8px; font-size:12.5px; color:var(--text-muted); display:flex; flex-wrap:wrap; gap:6px 18px;}
+  .ap .ap-m b{font-family:"IBM Plex Mono",monospace; color:var(--text); font-weight:600;}
+  .note{font-size:12.5px; color:var(--text-faint);}
+  .b-prog{color:var(--accent); background:var(--accent-soft); border-color:var(--accent);}
+</style>
+
+<style id="skin">
+  /* Skin: light grey canvas, white rounded cards, Inter Tight headlines, indigo + gold accents */
+  :root{
+    --bg:#f6f6f4; --surface:#ffffff; --surface-2:#f1f1ef;
+    --border:#e8e8e5; --border-strong:#d6d6d2;
+    --text:#14151a; --text-muted:#5d616b; --text-faint:#959aa6;
+    --accent:#3a49d6; --accent-soft:#eceefd;
+    --gold:#e8b53a; --gold-soft:#fbefcf; --gold-ink:#946500; --hl:#f4d98c;
+    --stage-assigned:#8b91a0; --stage-acut:#1f9d8f; --stage-submitted:#6b5ce6; --stage-review:#3a49d6; --stage-approved:#2f9e5b;
+    --cat-content:#e0584f; --cat-motion:#7a63e8; --cat-type:#3f7fd8; --cat-layout:#e0a02e;
+    --cat-coord:#1f9d8f; --cat-color:#d6527f; --cat-audio:#b8861f; --cat-praise:#2f9e5b;
+    --v-solid:#3a49d6; --v-standard:#767b87; --v-poor:#8a4a2f;
+    --status-ontime:#23895a; --status-delayed:#946500;
+    --gr-green:#23a35c; --gr-yellow:#d9a21b; --gr-red:#e5484d;
+    --shadow:0 1px 2px rgba(20,22,40,.04), 0 10px 28px -14px rgba(20,22,40,.12);
+    color-scheme: light;
+  }
+  
+  
+
+  body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif; -webkit-font-smoothing:antialiased;}
+  .mono,.tl-date,.cal-date,.cb-count,.stat .n,.video-stats b,.flag .fi,.ap .ap-n,.ap .ap-m b,.meta,.tbl td.num,.tbl th.num{
+    font-family:"Inter Tight","Inter",sans-serif !important; font-variant-numeric:tabular-nums;
+  }
+  a{color:var(--accent);}
+  .video-title a{text-decoration-color:var(--border-strong);}
+
+  /* Headlines */
+  h1{font-family:"Inter Tight","Inter",sans-serif; font-size:clamp(34px,6vw,52px); font-weight:800; letter-spacing:-0.035em; line-height:1.02; margin:10px 0 22px;}
+  .page > div:first-child h1{display:inline; background:linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%); padding:0 .08em; box-decoration-break:clone; -webkit-box-decoration-break:clone;}
+  .hdr-eyebrow,.eyebrow{font-family:"Inter Tight","Inter",sans-serif; font-size:12px; font-weight:600; letter-spacing:.08em; color:var(--text-faint);}
+  .page > div:first-child{display:block;}
+  .page > div:first-child .hdr-stats{margin-top:22px;}
+  .section-title{font-family:"Inter Tight","Inter",sans-serif; font-size:12px; font-weight:600; letter-spacing:.08em; color:var(--text-faint);}
+  section > .section-title{padding-left:2px;}
+
+  /* Tiles */
+  .stat{border:1px solid var(--border); border-left:1px solid var(--border); border-radius:20px; padding:20px 22px; box-shadow:var(--shadow); position:relative; overflow:hidden;}
+  .stat::before{content:""; position:absolute; left:22px; top:0; width:34px; height:4px; border-radius:0 0 4px 4px; background:var(--border-strong);}
+  .stat .n{font-size:48px; font-weight:800; letter-spacing:-0.04em; color:var(--accent); margin-top:6px;}
+  .stat .l{font-size:13px; line-height:1.4; margin-top:8px;}
+  .stat.green::before{background:var(--gr-green);} .stat.yellow::before{background:var(--gr-yellow);} .stat.red::before{background:var(--gr-red);}
+  .stat.green,.stat.yellow,.stat.red{border-left-color:var(--border);}
+  .stat.green .n{color:var(--gr-green);} .stat.yellow .n{color:var(--gr-yellow);} .stat.red .n{color:var(--gr-red);}
+
+  /* Cards */
+  .video,.cal-wrap,.flag,.ap,.tbl,a.card,.quote-box{box-shadow:var(--shadow);}
+  .video,.cal-wrap{border-radius:22px; padding:26px;}
+  .video-title{font-family:"Inter Tight","Inter",sans-serif; font-size:21px; font-weight:700; letter-spacing:-0.02em;}
+  .video-client{font-size:12.5px; color:var(--text-faint); font-weight:500;}
+  .video-stats{gap:10px 26px; font-size:12.5px; color:var(--text-faint);}
+  .video-stats b{font-size:14px; font-weight:700; color:var(--text);}
+  .timeline{border-top-color:var(--border);}
+  .tl-date{font-size:12.5px; font-weight:600; color:var(--text-faint);}
+  .quote-box{border:1.5px solid var(--gold); border-radius:18px; padding:18px 22px; background:var(--surface);}
+  .quote-box b{font-family:"Inter Tight","Inter",sans-serif; letter-spacing:.01em;}
+  .flag,.ap{border-radius:16px;}
+  .ap{border-left:1px solid var(--border); border-top:3px solid var(--accent);}
+  .tbl{border-radius:18px;}
+  .tbl th{font-family:"Inter Tight","Inter",sans-serif; letter-spacing:.07em;}
+
+  /* Pills */
+  .badge{border:0; border-left:0 !important; border-radius:999px; padding:5px 12px; font-size:11.5px; font-weight:700; letter-spacing:.01em;}
+  .b-standard{color:var(--v-standard); background:var(--surface-2);}
+  .b-none{color:var(--text-faint); background:var(--surface-2);}
+  .b-ontime{color:var(--status-ontime); background:color-mix(in srgb, var(--status-ontime) 13%, var(--surface));}
+  .b-delayed{color:var(--gold-ink); background:var(--gold-soft);}
+  .b-prog{color:var(--accent); background:var(--accent-soft);}
+  .b-solid{color:var(--accent) !important; background:var(--accent-soft) !important;}
+  .b-innovative{color:#6b5ce6 !important; background:color-mix(in srgb, #6b5ce6 13%, var(--surface)) !important;}
+  .b-missed{color:#c4582a !important; background:color-mix(in srgb, #e0702f 14%, var(--surface)) !important;}
+
+  /* Bars */
+  .catbar{border-top-color:var(--border);}
+  .catbar summary{padding:12px 2px;}
+  .catbar summary .cb-label{font-weight:700;}
+  .catbar summary .cb-track{height:10px; border-radius:999px; background:var(--surface-2);}
+  .catbar summary .cb-fill{border-radius:999px;}
+  .catbar summary .cb-count{font-size:14px; font-weight:700; color:var(--text);}
+  .cb-group .cb-video{font-family:"Inter Tight","Inter",sans-serif; letter-spacing:.06em;}
+
+  /* Calendar */
+  .cal-cell{border-radius:14px; background:var(--surface-2);}
+  .cal-cell.event{background:var(--surface); border-color:var(--border-strong);}
+  .cal-date{font-size:12.5px; font-weight:600;}
+  .cal-chip{border-radius:999px; padding:2px 7px; font-weight:700;}
+  .cal-dow,.month-label{font-family:"Inter Tight","Inter",sans-serif; letter-spacing:.08em;}
+  .legend-dot{border-radius:999px;}
+
+  /* Index cards */
+  a.card{border-radius:20px; padding:20px 24px; transition:border-color .15s, transform .15s;}
+  a.card:hover{border-color:var(--gold); transform:translateY(-1px);}
+  .name{font-family:"Inter Tight","Inter",sans-serif; font-size:19px; font-weight:700; letter-spacing:-0.02em;}
+  .meta{font-weight:500;}
+  .sub{font-size:16px;}
+  .arrow{color:var(--accent);}
+</style>
+</head>
+<body>
+<style>
+  .b-solid{color:#2f6fd6; background:var(--surface-2); border-color:#2f6fd6;}
+  .b-innovative{color:#9b7be0; background:var(--surface-2); border-color:#9b7be0;}
+  .b-missed{color:#c98f3f; background:var(--surface-2); border-color:#c98f3f;}
+</style>
+<div class="page">
+
+  <div>
+    <div class="hdr-eyebrow">Editor Review — October 2026 (to Nov 9)</div>
+    <h1>Manish Chauhan</h1>
+    <div class="hdr-stats">
+      <div class="stat red"><div class="n mono">0</div><div class="l">Videos shipped <span style="color:var(--text-faint)">· target 4/mo · to Nov 9</span></div></div>
+      <div class="stat green"><div class="n mono">3</div><div class="l">Total drafts <span style="color:var(--text-faint)">· target ≤4 (A-cut+V1+V2+Final × 1 video)</span></div></div>
+      <div class="stat"><div class="n mono">78</div><div class="l">Total comments</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-title">October at a glance</div>
+    <div class="cal-wrap">
+      <div class="month-label">October 2026</div><div class="cal-grid">
+<div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell empty"></div>
+<div class="cal-cell"><div class="cal-date">1</div></div>
+<div class="cal-cell"><div class="cal-date">2</div></div>
+<div class="cal-cell"><div class="cal-date">3</div></div>
+<div class="cal-cell"><div class="cal-date">4</div></div>
+<div class="cal-cell"><div class="cal-date">5</div></div>
+<div class="cal-cell"><div class="cal-date">6</div></div>
+<div class="cal-cell"><div class="cal-date">7</div></div>
+<div class="cal-cell"><div class="cal-date">8</div></div>
+<div class="cal-cell"><div class="cal-date">9</div></div>
+<div class="cal-cell"><div class="cal-date">10</div></div>
+<div class="cal-cell"><div class="cal-date">11</div></div>
+<div class="cal-cell"><div class="cal-date">12</div></div>
+<div class="cal-cell"><div class="cal-date">13</div></div>
+<div class="cal-cell"><div class="cal-date">14</div></div>
+<div class="cal-cell"><div class="cal-date">15</div></div>
+<div class="cal-cell"><div class="cal-date">16</div></div>
+<div class="cal-cell"><div class="cal-date">17</div></div>
+<div class="cal-cell"><div class="cal-date">18</div></div>
+<div class="cal-cell"><div class="cal-date">19</div></div>
+<div class="cal-cell"><div class="cal-date">20</div></div>
+<div class="cal-cell"><div class="cal-date">21</div></div>
+<div class="cal-cell"><div class="cal-date">22</div></div>
+<div class="cal-cell"><div class="cal-date">23</div></div>
+<div class="cal-cell"><div class="cal-date">24</div></div>
+<div class="cal-cell"><div class="cal-date">25</div></div>
+<div class="cal-cell event"><div class="cal-date">26</div><div class="cal-chip" style="background:var(--stage-assigned)">Assigned · BEG</div><div class="tip"><b>BEG</b>: Assigned by Gio, first video for Manish. Deadline Nov 2.</div></div>
+<div class="cal-cell event"><div class="cal-date">27</div><div class="cal-chip" style="background:var(--stage-acut)">A-cut · BEG</div><div class="tip"><b>BEG</b>: A-cut received — <a href="https://f.io/cc1U5cBl" target="_blank" rel="noopener">f.io/cc1U5cBl</a>.</div></div>
+<div class="cal-cell"><div class="cal-date">28</div></div>
+<div class="cal-cell event"><div class="cal-date">29</div><div class="cal-chip" style="background:var(--stage-acut)">A-cut v2 · BEG</div><div class="tip"><b>BEG</b>: A-cut v2 received after Ari refilmed — <a href="https://f.io/tPWmjeO4" target="_blank" rel="noopener">f.io/tPWmjeO4</a>.</div></div>
+<div class="cal-cell"><div class="cal-date">30</div></div>
+<div class="cal-cell"><div class="cal-date">31</div></div>
+</div><div class="month-label">November 2026 (to Nov 9)</div><div class="cal-grid">
+<div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+<div class="cal-cell"><div class="cal-date">1</div></div>
+<div class="cal-cell"><div class="cal-date">2</div></div>
+<div class="cal-cell"><div class="cal-date">3</div></div>
+<div class="cal-cell"><div class="cal-date">4</div></div>
+<div class="cal-cell event"><div class="cal-date">5</div><div class="cal-chip" style="background:var(--stage-submitted)">V1 · BEG</div><div class="tip"><b>BEG</b>: V1 submitted — <a href="https://f.io/gw0iTo8v" target="_blank" rel="noopener">f.io/gw0iTo8v</a>.</div><div class="cal-chip" style="background:var(--stage-review)">V1 rev · BEG</div><div class="tip"><b>BEG</b>: V1 reviewed (first half) — 50 comments.</div></div>
+<div class="cal-cell"><div class="cal-date">6</div></div>
+<div class="cal-cell event"><div class="cal-date">7</div><div class="cal-chip" style="background:var(--stage-submitted)">V2 · BEG</div><div class="tip"><b>BEG</b>: V2 submitted — <a href="https://f.io/Uxf3gOXi" target="_blank" rel="noopener">f.io/Uxf3gOXi</a>.</div></div>
+<div class="cal-cell"><div class="cal-date">8</div></div>
+<div class="cal-cell event"><div class="cal-date">9</div><div class="cal-chip" style="background:var(--stage-review)">V2 rev · BEG</div><div class="tip"><b>BEG</b>: V2 reviewed — 28 comments.</div></div>
+</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-assigned)"></div>Assigned / scope</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-acut)"></div>A-cut received / reviewed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-submitted)"></div>Draft submitted</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-review)"></div>Reviewed (comments given)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--stage-approved)"></div>Approved / live</div>
+      </div>
+      <div class="legend-key">BEG = I Am (Politely) Begging You To Retire Before It's Too Late</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Round by round</div>
+    <table class="tbl">
+      <tr><th>Measure</th><th class="num">V1</th><th class="num">V2</th></tr>
+      <tr><td>Comments</td><td class="num">50</td><td class="num">28</td></tr>
+      <tr><td>Motion &amp; animation</td><td class="num">9</td><td class="num">9</td></tr>
+      <tr><td>Content &amp; accuracy</td><td class="num">14</td><td class="num">3</td></tr>
+      <tr><td>Typography</td><td class="num">11</td><td class="num">5</td></tr>
+      <tr><td>Layout &amp; spacing</td><td class="num">7</td><td class="num">6</td></tr>
+      <tr><td>Audio</td><td class="num">3</td><td class="num">2</td></tr>
+      <tr><td>Color &amp; grading</td><td class="num">4</td><td class="num">0</td></tr>
+      <tr><td>Coordination</td><td class="num">2</td><td class="num">2</td></tr>
+      <tr><td>Praise</td><td class="num">0</td><td class="num">1</td></tr>
+    </table>
+    <div class="note">This is Manish's first video, so there is no September to compare with. Instead, here is V1 against V2: far fewer comments in the second round, with the layout and typography notes still the ones that repeat. V1 was reviewed for the first half only, because the style was not right yet.</div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns this period — all videos combined</div>
+    <div class="video">
+      <div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">18</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 18</div><ul><li>"make the text animation faster, no need to sync each word to the audio" (V1)</li><li>"A few notes on zooms for this video: 1. Start and end points: a zoom should start at the beginning of the frame and end when a full-screen graphic comes in. It shouldn't start or stop mid-cut. When a zoom is happening, the brain expects it to continue, so stopping abruptly feels jarring. The same goes for a static frame that suddenly starts zooming. 2. Constant zooms: keep them slow, subtle and smooth. In the second half they're too strong right now. They can be a zoom in or a zoom out, whichever fits better, and if a section feels static, add more. 3. Eye level: put the anchor point between the eyes so the eye level doesn't shift during a zoom. When we crop in for a zoom cut, the eye level of the previous cut should match the next one. 4. Intent: use zooms to signal moments. Jump cut zooms to emphasize, constant zooms to build tension." (V1)</li><li>"Let's make the selection animation more prominent when you select "under spending". Add a position keyframe as well so it feels like you're picking it: as it gets selected, it moves slightly up to show it's been chosen. Great job with the icons though." (V1)</li><li>"toooo much zoom in, reduce" (V1)</li><li>"weird zoom out, remove this" (V1)</li><li>"Good call adding zoom-ins to the screen recording, but it gets distracting when it happens again and again. Let's reduce how often they happen and make them much less intense. A zoom of just 5-10% towards the area we want to highlight is enough to guide the viewer, without zooming in too much. + reply "lets try to show fullscreen - take inspo from Sharan's draft I shared earlier"" (V1)</li><li>"less intense zoom ins please" (V1)</li><li>"give the shot more breathing space, let it linger for some frames before bringing the chapter card" (V1)</li><li>"Glitch" (V1)</li><li>"The title is not zooming in with the graph, that looks weird. Please fix." (V2)</li><li>"Instead of this coming from slide, make this come from bottom. So position keyframes look like this (0, -10) to (0,0). Plus when he says most of it was locked in housing, highlight housing by increasing it's scale a little. We need to make this look &amp; feel high quality, right now it feels like a power point presentation." (V2)</li><li>"Manish, have we added these zoom ins or are they backed in the screen recording? Because we are not seeing what Ari is typing." (V2)</li><li>"Frame Glitch" (V2)</li><li>"Sync the data with the audio, 25 years &amp; retirement years should only come after Ari says it + reply "The idea here is to guide the viewer's eyes with the animation. If everything animates at once, it's confusing because there's nowhere to focus. If we animate one thing at a time, for example "Person 1 retired at 55" first, then "retirement portfolio", and then "$1.5 million", the viewer's eyes always have one thing to focus on. That makes it much less confusing and easier and more fun to follow."" (V2)</li><li>"let it linger for few more frames" (V2)</li><li>"This animation stays on for longer than it should + reply "cut it down &amp; show Ari after the graphic becomes irrelevant"" (V2)</li><li>"No need for the zoom out (it looks good but its out of context)" (V2)</li><li>"FG (beige bg) + reply "FG = Frame Glitch"" (V2)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:94%"></div></div><span class="cb-count mono">17</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 17</div><ul><li>"Let's try one thing here to improve the immersiveness. Remove the outlines and show one B-roll in full screen. Use the image on the left as the start frame and the image on the right as the end frame, and generate a video where we see the person growing older. If we can keep the shirt the same, even better. The goal is to show the person ageing, and I think this symbolises it much better than what we have now, which is a bit distracting to watch." (V1)</li><li>"Lets remove this animation &amp; instead show a broll an old person sitting &amp; wondering, not in a good mood. Ask claude to get you a more detailed prompt. + reply "show broll when he says why didnt I retire... Dont delete the animation, hide this"" (V1)</li><li>"Lets show brolls in fullscreen, this broll template doesn't help, it loses the immersiveness of the video Also hide the gemini mark on the bottom right" (V1)</li><li>"Lets change this graphic to something else, we can even skip this one. Problem with this is, its confusing to look at." (V1)</li><li>"Great concept for the animation, but the visuals need to improve. Right now this screams AI, and James's and Ari's audiences in particular don't like AI-generated content. We need to really focus on improving the AI brolls for both of them. The image looks too perfect at the moment. The composition is too perfect, the lighting is too perfect, and the expressions are too generic. Try asking Claude for a prompt with imperfect lighting. It should feel like someone took the photo and it was then converted to a video. The colours shouldn't be super vibrant either. If it helps, ask Sharan or Saiyam for image references, which you can put into Claude to get more accurate images. I also shared Saiyam's tutorial on creating realistic AI avatars earlier. If you haven't seen it, DM me and I'll send the link. For more guidance, talk to Sharan or Saiyam. Saiyam is busy right now, so text Sharan first." (V1)</li><li>"We need to rework this animation. There's too much information on screen and it's complicating things. The purpose of an animation should be to reduce confusion, but right now it's adding to it. I've attached two references. Whenever you're conceptualising an animation, first identify what we need to emphasise. Here: • Two people: Person A and Person B • Age, portfolio and annual spending • Retirement date • Portfolio value I think we can show all of this in a card format like the references. For example: • Age • Portfolio amount • Annual spending • Retirement age • Final portfolio at 65 If you're unsure about anything, or want approval on the design before animating, feel free to DM me on Slack." (V1)</li><li>"Lets use PiP here, too show Ari's expression" (V1)</li><li>"One more thing to keep in mind: we don't need to show everything. Only show what the viewer needs to understand, the things without which the concept would fail. Right now you've included "rising with inflation", which isn't important because it's already understood, and the annual growth rate as well. Just keep this in mind going forward." (V1)</li><li>"This broll feels out of context + reply "either remove or make it more contextual"" (V1)</li><li>"Can maybe show this, as it creates a good point. That going from X to XXX makes a big difference compared to going from X to XX" (V1)</li><li>"This graphic is accurate, but it's a bit out of context for this section. Here Ari is saying that if you retire early, you take more money out of the portfolio. We need to show portfolio withdrawals increasing, and then going down once Social Security kicks in." (V1)</li><li>"Remove, not required" (V1)</li><li>"No need for this, remove" (V1)</li><li>"The quality of the images needs to be improved, they look low quality right now. Use Seeddream 5 to generate images + reply "fix this throughout the video"" (V1)</li><li>"This broll looks out of place, like the brolls earlier had a different feel &amp; CG, while this one looks very different. Super bright, bluish. Can we make this look like that one too please?" (V2)</li><li>"This looks much better than before, good job on that. One issue: the portfolio at 65 ($2,080,000) is revealed before Ari talks about it, which makes things a bit confusing. The three things Ari mentions when he talks about Person 1 are the portfolio value, annual spending and retirement age. Keep the graphic as it is, but don't reveal the portfolio at 65 yet. Instead, hide "retire at 60" at the start, and reveal it when he says "retire today". I think that will be much clearer for the viewer. Then reveal portfolio at 65 when he talks about it after revealing person 02. + reply "The base principle here is that we reveal information as Ari says it, not before or after. Otherwise it gets confusing for the viewer to follow the graphic and make sense of it."" (V2)</li><li>"Show Ari when he is giving a CTA" (V2)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:89%"></div></div><span class="cb-count mono">16</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 16</div><ul><li>"break the supers into just two parts Here's something I see all the time" (V1)</li><li>"please use sentence case throughout the hook supers + reply "Only I &amp; proper nouns should be capitalised"" (V1)</li><li>"sentence case please + reply "this is sentence case actually"" (V1)</li><li>"remove supers from this point for the hook" (V1)</li><li>"02 becomes 03, please fix" (V1)</li><li>"Trim the unnecessary part of the comments and increase its size so it's more evident. Also remove the quote marks, I don't think they're adding any value here." (V1)</li><li>"Optimize American english" (V1)</li><li>"Change icons to male &amp; female. We don't use bold fonts &amp; no all caps either please" (V1)</li><li>"Same changes as last one" (V1)</li><li>"Sentence case please, use this website to help yourselfhttps://capitalizemytitle.com/" (V1)</li><li>"#44" (V1)</li><li>"As I mentioned earlier, in supers we only capitalise the letter "I" and proper nouns. Right now the first letter of every super is capitalised, which isn't what we want. The supers should read like one continuous sentence, where only "I" and proper nouns are capitalised and nothing else. Please fix this." (V2)</li><li>"Change it to Person 02 &amp; change the image as well" (V2)</li><li>"remove (to 80) its extra information" (V2)</li><li>"Change client to Daniel &amp; remove text on right side" (V2)</li><li>"Takeaways 01 Don’t retire before you’re financially ready. 02 Working longer isn’t always the responsible decision. 03 More money stops mattering. More time doesn’t." (V2)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:72%"></div></div><span class="cb-count mono">13</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 13</div><ul><li>"Top &amp; bottom spacing discrepancy, align verrtically" (V1)</li><li>"Please fix the way the screen recording is shown as well. Check how Sharan did it in this video: https://f.io/bJ1nM4Ws You'll find two options, one which he has done &amp; one for which he has attached a screenshot. Choose the one that fits better here &amp; doesnt compromise content." (V1)</li><li>"Please use the standard PiP template provided in the CIK. The proportions in this one is not appropriate + need to add glowing light around." (V1)</li><li>"Let's change the orientation and structure of the graphic to something like this. It looks much cleaner than this. Here's what's not working in the current graphic, just for you to learn from and keep in mind for next time: • There's no need for the rectangle in the background behind the overall content. It's not adding any value • The net worth text is left aligned, the pointers are centre aligned, and the total net worth is left aligned again, which is slightly confusing. It looks too mushed together compared to the version I shared, which is much cleaner Those are the major things. • Colour contrast: brown on dark beige has less contrast than black on a dark background One thing to keep in mind: the rectangles beside "home investment" and "savings" in my template are just placeholders. You don't need to add an icon inside the squares. If you think it looks better, go ahead. You can pick whichever style you prefer, an icon inside a square or just the icon without a square, whichever looks good. + reply "Net worth instead of Networth (fix in my graphic)"" (V1)</li><li>"PiP fix throughout the video please" (V1)</li><li>"Use the same templates that I shared in #27" (V1)</li><li>"PiP please" (V1)</li><li>"Spacing discrepancy + reply "Fix this throughout all the chapter cards"" (V2)</li><li>"reduce letter spacing" (V2)</li><li>"Can we make the stroke widths consistent please? The initial $2M, 2 people graphic animation has appropriate card stroke widths. Copy that here." (V2)</li><li>"Awesome! Just reduce the letter spacing slightly + increase the whole chunk size by 5-10%" (V2)</li><li>"Reduce letter spacing" (V2)</li><li>"reduce spacing" (V2)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:28%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 5</div><ul><li>"remove this tonal SFX, it's not helping" (V1)</li><li>"Add SFX for this" (V1)</li><li>"Remove BGM after the hook, comments say its distracting" (V1)</li><li>"Can you ask Saiyam to get you the exact SFXs he uses for the chapter card please?" (V2)</li><li>"Remove BGM as advised earlier" (V2)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:22%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 4</div><ul><li>"Need to make the dark shadow more stronger, the text on Ari's tshirt is messing with the supers" (V1)</li><li>"Great animation, one thing to fix: Colors Right now there's a lack of color variety on the screen which is affecting the contrast of the graphic. Make the graph axis lines &amp; numbers black. Keep the heading brown. Make the black line (graph line) brown. Convert red to green, red symbolizes fear &amp; lack, while green shows the otherwise. Whenever I mention black, brown, red, green, they are all from the pallete" (V1)</li><li>"black pls" (V1)</li><li>"variety of color please (text to black)" (V1)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:22%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 4</div><ul><li>"Please don't modify the templates we've already decided on in the Creator Identity Kit. They've been approved by the client, and we've put in a lot of work and back and forth on them. Changing them invites more changes and ends up taking more time to finish a video. Please don't make any changes to the CIK templates. You can show all your creativity in the custom graphics you create. Please switch this one back to the template from the Creator Identity Kit. + reply "For all chapter cards in the video"" (V1)</li><li>"Need to make this Ari &amp; James coded, please go through the frame bank, the feedback I have given above &amp; the previous videos to understand the style. I feel I have given enough context above that now you'll be easily able to design the animation in the style. If you get stuck anywhere, please DM." (V1)</li><li>"'@Saiyam" (V2)</li><li>"'@Saiyam Verma" (V2)</li></ul></div></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:6%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><div class="cb-group"><div class="cb-video">Begging You To Retire — 1</div><ul><li>"LOVE THE BROLL SEQUENCE, SUPER REALISTIC! 🔥" (V2)</li></ul></div></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Videos this period</div>
+
+    <div class="video">
+      <div class="video-hdr">
+        <div style="flex:1; min-width:200px;">
+          <div class="video-title"><a href="https://bettervideos.slack.com/archives/C0C0EKEDDND/p1793026204683229?thread_ts=1793026204.683229&cid=C0C0EKEDDND" target="_blank" rel="noopener">I Am (Politely) Begging You To Retire Before It's Too Late</a></div>
+          <div class="video-client">Ari Taublieb</div>
+        </div>
+        <span class="badge b-prog">In progress · V2 reviewed Nov 9</span>
+        <span class="badge b-none">No verdict on file</span>
+      </div>
+      <div class="video-stats"><span>Comments: <b>78</b></span><span>Review rounds: <b>2</b></span><span>Drafts: <b>3</b> <span style="color:var(--text-faint)">(A-cut, V1, V2)</span></span><span>Deadline: <b>Nov 2 (moved when Ari refilmed)</b></span></div>
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-date mono">Oct 26</span><span class="tl-label"><b>Assigned</b> <span class="tl-note">— by Gio, first video for Manish. Deadline Nov 2</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Oct 27</span><span class="tl-label"><b>A-cut received</b> <span class="tl-note">— <a href="https://f.io/cc1U5cBl" target="_blank" rel="noopener">f.io/cc1U5cBl</a></span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Oct 29</span><span class="tl-label"><b>A-cut v2 received</b> <span class="tl-note">— <a href="https://f.io/tPWmjeO4" target="_blank" rel="noopener">f.io/tPWmjeO4</a>, after Ari refilmed</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Nov 5</span><span class="tl-label"><b>V1 submitted</b> <span class="tl-note">— <a href="https://f.io/gw0iTo8v" target="_blank" rel="noopener">f.io/gw0iTo8v</a></span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Nov 5</span><span class="tl-label"><b>V1 reviewed</b> <span class="tl-note">— 50 comments, first half only</span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Nov 7</span><span class="tl-label"><b>V2 submitted</b> <span class="tl-note">— <a href="https://f.io/Uxf3gOXi" target="_blank" rel="noopener">f.io/Uxf3gOXi</a></span></span></div>
+        <div class="tl-row"><span class="tl-date mono">Nov 9</span><span class="tl-label"><b>V2 reviewed</b> <span class="tl-note">— 28 comments</span></span></div>
+      </div>
+
+      <div class="quote-box">
+        <p style="margin:0"><b>Sanket's Review:</b> Manish's first draft for Ari's video was a bit out of place, with too many comments on styling and the small details. The good part is that his English was good enough that there weren't many language comments, and the font and color comments were few and manageable. The bigger problem was that he tried to innovate so much on his own that he didn't use the CIK at all. That was a waste of time, because there's no need to reinvent what already works. A few animations looked very out of place. They weren't polished or branded, and they didn't feel thoughtful, intentional or designed. It felt like text was just stuck onto the screen. That's fixable, and I understand it's his first video. Looking at it as a first video, it's still good enough. I'd rate it 6 out of 10.</p>
+      </div>
+
+      <div class="note" style="margin-top:14px">Comments by round: V1 50 · V2 28</div><div class="catbars">
+        <details class="catbar" style="--cb-c:var(--cat-motion)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Motion &amp; animation</span><div class="cb-track"><div class="cb-fill" style="width:100%"></div></div><span class="cb-count mono">18</span></summary>
+          <div class="cb-body"><ul><li>"make the text animation faster, no need to sync each word to the audio" (V1)</li><li>"A few notes on zooms for this video: 1. Start and end points: a zoom should start at the beginning of the frame and end when a full-screen graphic comes in. It shouldn't start or stop mid-cut. When a zoom is happening, the brain expects it to continue, so stopping abruptly feels jarring. The same goes for a static frame that suddenly starts zooming. 2. Constant zooms: keep them slow, subtle and smooth. In the second half they're too strong right now. They can be a zoom in or a zoom out, whichever fits better, and if a section feels static, add more. 3. Eye level: put the anchor point between the eyes so the eye level doesn't shift during a zoom. When we crop in for a zoom cut, the eye level of the previous cut should match the next one. 4. Intent: use zooms to signal moments. Jump cut zooms to emphasize, constant zooms to build tension." (V1)</li><li>"Let's make the selection animation more prominent when you select "under spending". Add a position keyframe as well so it feels like you're picking it: as it gets selected, it moves slightly up to show it's been chosen. Great job with the icons though." (V1)</li><li>"toooo much zoom in, reduce" (V1)</li><li>"weird zoom out, remove this" (V1)</li><li>"Good call adding zoom-ins to the screen recording, but it gets distracting when it happens again and again. Let's reduce how often they happen and make them much less intense. A zoom of just 5-10% towards the area we want to highlight is enough to guide the viewer, without zooming in too much. + reply "lets try to show fullscreen - take inspo from Sharan's draft I shared earlier"" (V1)</li><li>"less intense zoom ins please" (V1)</li><li>"give the shot more breathing space, let it linger for some frames before bringing the chapter card" (V1)</li><li>"Glitch" (V1)</li><li>"The title is not zooming in with the graph, that looks weird. Please fix." (V2)</li><li>"Instead of this coming from slide, make this come from bottom. So position keyframes look like this (0, -10) to (0,0). Plus when he says most of it was locked in housing, highlight housing by increasing it's scale a little. We need to make this look &amp; feel high quality, right now it feels like a power point presentation." (V2)</li><li>"Manish, have we added these zoom ins or are they backed in the screen recording? Because we are not seeing what Ari is typing." (V2)</li><li>"Frame Glitch" (V2)</li><li>"Sync the data with the audio, 25 years &amp; retirement years should only come after Ari says it + reply "The idea here is to guide the viewer's eyes with the animation. If everything animates at once, it's confusing because there's nowhere to focus. If we animate one thing at a time, for example "Person 1 retired at 55" first, then "retirement portfolio", and then "$1.5 million", the viewer's eyes always have one thing to focus on. That makes it much less confusing and easier and more fun to follow."" (V2)</li><li>"let it linger for few more frames" (V2)</li><li>"This animation stays on for longer than it should + reply "cut it down &amp; show Ari after the graphic becomes irrelevant"" (V2)</li><li>"No need for the zoom out (it looks good but its out of context)" (V2)</li><li>"FG (beige bg) + reply "FG = Frame Glitch"" (V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-content)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Content &amp; accuracy</span><div class="cb-track"><div class="cb-fill" style="width:94%"></div></div><span class="cb-count mono">17</span></summary>
+          <div class="cb-body"><ul><li>"Let's try one thing here to improve the immersiveness. Remove the outlines and show one B-roll in full screen. Use the image on the left as the start frame and the image on the right as the end frame, and generate a video where we see the person growing older. If we can keep the shirt the same, even better. The goal is to show the person ageing, and I think this symbolises it much better than what we have now, which is a bit distracting to watch." (V1)</li><li>"Lets remove this animation &amp; instead show a broll an old person sitting &amp; wondering, not in a good mood. Ask claude to get you a more detailed prompt. + reply "show broll when he says why didnt I retire... Dont delete the animation, hide this"" (V1)</li><li>"Lets show brolls in fullscreen, this broll template doesn't help, it loses the immersiveness of the video Also hide the gemini mark on the bottom right" (V1)</li><li>"Lets change this graphic to something else, we can even skip this one. Problem with this is, its confusing to look at." (V1)</li><li>"Great concept for the animation, but the visuals need to improve. Right now this screams AI, and James's and Ari's audiences in particular don't like AI-generated content. We need to really focus on improving the AI brolls for both of them. The image looks too perfect at the moment. The composition is too perfect, the lighting is too perfect, and the expressions are too generic. Try asking Claude for a prompt with imperfect lighting. It should feel like someone took the photo and it was then converted to a video. The colours shouldn't be super vibrant either. If it helps, ask Sharan or Saiyam for image references, which you can put into Claude to get more accurate images. I also shared Saiyam's tutorial on creating realistic AI avatars earlier. If you haven't seen it, DM me and I'll send the link. For more guidance, talk to Sharan or Saiyam. Saiyam is busy right now, so text Sharan first." (V1)</li><li>"We need to rework this animation. There's too much information on screen and it's complicating things. The purpose of an animation should be to reduce confusion, but right now it's adding to it. I've attached two references. Whenever you're conceptualising an animation, first identify what we need to emphasise. Here: • Two people: Person A and Person B • Age, portfolio and annual spending • Retirement date • Portfolio value I think we can show all of this in a card format like the references. For example: • Age • Portfolio amount • Annual spending • Retirement age • Final portfolio at 65 If you're unsure about anything, or want approval on the design before animating, feel free to DM me on Slack." (V1)</li><li>"Lets use PiP here, too show Ari's expression" (V1)</li><li>"One more thing to keep in mind: we don't need to show everything. Only show what the viewer needs to understand, the things without which the concept would fail. Right now you've included "rising with inflation", which isn't important because it's already understood, and the annual growth rate as well. Just keep this in mind going forward." (V1)</li><li>"This broll feels out of context + reply "either remove or make it more contextual"" (V1)</li><li>"Can maybe show this, as it creates a good point. That going from X to XXX makes a big difference compared to going from X to XX" (V1)</li><li>"This graphic is accurate, but it's a bit out of context for this section. Here Ari is saying that if you retire early, you take more money out of the portfolio. We need to show portfolio withdrawals increasing, and then going down once Social Security kicks in." (V1)</li><li>"Remove, not required" (V1)</li><li>"No need for this, remove" (V1)</li><li>"The quality of the images needs to be improved, they look low quality right now. Use Seeddream 5 to generate images + reply "fix this throughout the video"" (V1)</li><li>"This broll looks out of place, like the brolls earlier had a different feel &amp; CG, while this one looks very different. Super bright, bluish. Can we make this look like that one too please?" (V2)</li><li>"This looks much better than before, good job on that. One issue: the portfolio at 65 ($2,080,000) is revealed before Ari talks about it, which makes things a bit confusing. The three things Ari mentions when he talks about Person 1 are the portfolio value, annual spending and retirement age. Keep the graphic as it is, but don't reveal the portfolio at 65 yet. Instead, hide "retire at 60" at the start, and reveal it when he says "retire today". I think that will be much clearer for the viewer. Then reveal portfolio at 65 when he talks about it after revealing person 02. + reply "The base principle here is that we reveal information as Ari says it, not before or after. Otherwise it gets confusing for the viewer to follow the graphic and make sense of it."" (V2)</li><li>"Show Ari when he is giving a CTA" (V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-type)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Typography</span><div class="cb-track"><div class="cb-fill" style="width:89%"></div></div><span class="cb-count mono">16</span></summary>
+          <div class="cb-body"><ul><li>"break the supers into just two parts Here's something I see all the time" (V1)</li><li>"please use sentence case throughout the hook supers + reply "Only I &amp; proper nouns should be capitalised"" (V1)</li><li>"sentence case please + reply "this is sentence case actually"" (V1)</li><li>"remove supers from this point for the hook" (V1)</li><li>"02 becomes 03, please fix" (V1)</li><li>"Trim the unnecessary part of the comments and increase its size so it's more evident. Also remove the quote marks, I don't think they're adding any value here." (V1)</li><li>"Optimize American english" (V1)</li><li>"Change icons to male &amp; female. We don't use bold fonts &amp; no all caps either please" (V1)</li><li>"Same changes as last one" (V1)</li><li>"Sentence case please, use this website to help yourselfhttps://capitalizemytitle.com/" (V1)</li><li>"#44" (V1)</li><li>"As I mentioned earlier, in supers we only capitalise the letter "I" and proper nouns. Right now the first letter of every super is capitalised, which isn't what we want. The supers should read like one continuous sentence, where only "I" and proper nouns are capitalised and nothing else. Please fix this." (V2)</li><li>"Change it to Person 02 &amp; change the image as well" (V2)</li><li>"remove (to 80) its extra information" (V2)</li><li>"Change client to Daniel &amp; remove text on right side" (V2)</li><li>"Takeaways 01 Don’t retire before you’re financially ready. 02 Working longer isn’t always the responsible decision. 03 More money stops mattering. More time doesn’t." (V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-layout)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Layout &amp; spacing</span><div class="cb-track"><div class="cb-fill" style="width:72%"></div></div><span class="cb-count mono">13</span></summary>
+          <div class="cb-body"><ul><li>"Top &amp; bottom spacing discrepancy, align verrtically" (V1)</li><li>"Please fix the way the screen recording is shown as well. Check how Sharan did it in this video: https://f.io/bJ1nM4Ws You'll find two options, one which he has done &amp; one for which he has attached a screenshot. Choose the one that fits better here &amp; doesnt compromise content." (V1)</li><li>"Please use the standard PiP template provided in the CIK. The proportions in this one is not appropriate + need to add glowing light around." (V1)</li><li>"Let's change the orientation and structure of the graphic to something like this. It looks much cleaner than this. Here's what's not working in the current graphic, just for you to learn from and keep in mind for next time: • There's no need for the rectangle in the background behind the overall content. It's not adding any value • The net worth text is left aligned, the pointers are centre aligned, and the total net worth is left aligned again, which is slightly confusing. It looks too mushed together compared to the version I shared, which is much cleaner Those are the major things. • Colour contrast: brown on dark beige has less contrast than black on a dark background One thing to keep in mind: the rectangles beside "home investment" and "savings" in my template are just placeholders. You don't need to add an icon inside the squares. If you think it looks better, go ahead. You can pick whichever style you prefer, an icon inside a square or just the icon without a square, whichever looks good. + reply "Net worth instead of Networth (fix in my graphic)"" (V1)</li><li>"PiP fix throughout the video please" (V1)</li><li>"Use the same templates that I shared in #27" (V1)</li><li>"PiP please" (V1)</li><li>"Spacing discrepancy + reply "Fix this throughout all the chapter cards"" (V2)</li><li>"reduce letter spacing" (V2)</li><li>"Can we make the stroke widths consistent please? The initial $2M, 2 people graphic animation has appropriate card stroke widths. Copy that here." (V2)</li><li>"Awesome! Just reduce the letter spacing slightly + increase the whole chunk size by 5-10%" (V2)</li><li>"Reduce letter spacing" (V2)</li><li>"reduce spacing" (V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-audio)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Audio</span><div class="cb-track"><div class="cb-fill" style="width:28%"></div></div><span class="cb-count mono">5</span></summary>
+          <div class="cb-body"><ul><li>"remove this tonal SFX, it's not helping" (V1)</li><li>"Add SFX for this" (V1)</li><li>"Remove BGM after the hook, comments say its distracting" (V1)</li><li>"Can you ask Saiyam to get you the exact SFXs he uses for the chapter card please?" (V2)</li><li>"Remove BGM as advised earlier" (V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-color)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Color &amp; grading</span><div class="cb-track"><div class="cb-fill" style="width:22%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><ul><li>"Need to make the dark shadow more stronger, the text on Ari's tshirt is messing with the supers" (V1)</li><li>"Great animation, one thing to fix: Colors Right now there's a lack of color variety on the screen which is affecting the contrast of the graphic. Make the graph axis lines &amp; numbers black. Keep the heading brown. Make the black line (graph line) brown. Convert red to green, red symbolizes fear &amp; lack, while green shows the otherwise. Whenever I mention black, brown, red, green, they are all from the pallete" (V1)</li><li>"black pls" (V1)</li><li>"variety of color please (text to black)" (V1)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-coord)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Coordination</span><div class="cb-track"><div class="cb-fill" style="width:22%"></div></div><span class="cb-count mono">4</span></summary>
+          <div class="cb-body"><ul><li>"Please don't modify the templates we've already decided on in the Creator Identity Kit. They've been approved by the client, and we've put in a lot of work and back and forth on them. Changing them invites more changes and ends up taking more time to finish a video. Please don't make any changes to the CIK templates. You can show all your creativity in the custom graphics you create. Please switch this one back to the template from the Creator Identity Kit. + reply "For all chapter cards in the video"" (V1)</li><li>"Need to make this Ari &amp; James coded, please go through the frame bank, the feedback I have given above &amp; the previous videos to understand the style. I feel I have given enough context above that now you'll be easily able to design the animation in the style. If you get stuck anywhere, please DM." (V1)</li><li>"'@Saiyam" (V2)</li><li>"'@Saiyam Verma" (V2)</li></ul></div>
+        </details>
+        <details class="catbar" style="--cb-c:var(--cat-praise)">
+          <summary><span class="arrow">▸</span><span class="cb-label">Praise</span><div class="cb-track"><div class="cb-fill" style="width:6%"></div></div><span class="cb-count mono">1</span></summary>
+          <div class="cb-body"><ul><li>"LOVE THE BROLL SEQUENCE, SUPER REALISTIC! 🔥" (V2)</li></ul></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Patterns Claude flagged</div>
+    <div class="flags">
+      <div class="flag"><span class="fi">01</span>V2 was a clear step up from V1. In Sanket's words, it looks way better and more on brand.</div>
+      <div class="flag"><span class="fi">02</span>Using the Creator Identity Kit templates as they are was the biggest V1 note. Manish reworked templates that were already decided instead of using them.</div>
+      <div class="flag"><span class="fi">03</span>Sentence case in the supers was asked for in V1 and still needed saying again in V2.</div>
+      <div class="flag"><span class="fi">04</span>Zoom notes came up again and again: how strong the zoom-ins are, and where they should start and end. Frame glitches turned up in both versions.</div>
+      <div class="flag"><span class="fi">05</span>Spacing and alignment notes were frequent, letter spacing on the chapter cards in V2 especially.</div>
+      <div class="flag"><span class="fi">06</span>V2 earned real praise for a B-roll sequence, "super realistic", with help from Sharan on the AI B-roll.</div>
+      <div class="flag"><span class="fi">07</span>The deadline was Nov 2 and moved when Ari refilmed. V1 went in on Nov 5 and V2 on Nov 7, with Saiyam helping on a few animations.</div>
+    </div>
+  </section>
+
+  <footer>Talking Heads · Editor Review System · October 2026</footer>
+</div>
+
+</body>
+</html>
