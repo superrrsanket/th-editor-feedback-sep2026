@@ -385,6 +385,11 @@
   .vd-k{border-radius:16px; padding:16px 18px; background:color-mix(in srgb, var(--gr-green) 11%, var(--surface)); font-size:14px; line-height:1.55; color:var(--text-muted);}
   .vd-k b{display:block; font-family:"Inter Tight","Inter",sans-serif; font-size:15px; color:var(--gr-green); margin-bottom:4px;}
   .vd-pill{display:inline-block; vertical-align:middle; margin-left:12px; font-family:"Inter",sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.02em; color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 16%, var(--surface)); border-radius:999px; padding:4px 11px;}
+  .vd-ev{grid-column:2; display:flex; flex-wrap:wrap; gap:16px; margin-top:10px; align-items:flex-start;}
+  .vd-ev figure{margin:0; display:flex; flex-direction:column; gap:8px; max-width:100%;}
+  .vd-ev img,.vd-ev video{display:block; border-radius:12px; border:1px solid var(--border); max-width:100%; height:auto; background:#000;}
+  .vd-ev figcaption{font-size:12.5px; line-height:1.45; color:var(--text-faint); max-width:340px;}
+  .vd-keep.one{grid-template-columns:minmax(0,1fr);}
   .vd-sub ul{margin:6px 0 0; padding-left:18px;} .vd-sub li{margin:3px 0;}
   @media (max-width:760px){
     .vd{padding:24px 20px;} .vd-sub,.vd-keep{grid-template-columns:1fr;} .vd-item{grid-template-columns:28px minmax(0,1fr);}
