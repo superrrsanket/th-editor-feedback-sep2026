@@ -368,6 +368,26 @@
     .tl-line{grid-template-columns:1fr; gap:6px;} .tl-tag{width:52px;}
   }
 </style>
+<style id="polish4">
+  /* September comparison on the aggregate pattern bars */
+  .pc-legend{display:flex; flex-wrap:wrap; align-items:center; gap:8px 22px; font-size:12.5px; color:var(--text-muted); padding:4px 2px 14px;}
+  .pc-legend span{display:inline-flex; align-items:center; gap:8px;}
+  .pc-legend i{display:inline-block; width:22px; height:8px; border-radius:999px; background:var(--accent);}
+  .pc-legend i.s{height:5px; background:var(--border-strong);}
+  .pc-legend .pc-note{margin-left:auto; color:var(--text-faint);}
+  .pcmp .cb-track{height:auto !important; background:transparent !important; display:flex; flex-direction:column; gap:5px; overflow:visible !important;}
+  .pcmp .cb-fill{height:10px !important; background:var(--cb-c) !important; border-radius:999px;}
+  .pcmp .cb-sept{height:5px; border-radius:999px; background:var(--border-strong);}
+  .pcmp .cb-count{font-family:"Inter Tight","Inter",sans-serif !important; font-size:15px !important; font-weight:700 !important; color:var(--text) !important;}
+  .cb-delta{display:flex; align-items:center; justify-content:flex-end; gap:10px; width:168px; flex-shrink:0;}
+  .cb-delta em{font-style:normal; font-size:12px; color:var(--text-faint); font-weight:600; white-space:nowrap;}
+  .cb-delta i{font-style:normal; font-size:12px; font-weight:700; border-radius:999px; padding:4px 10px; white-space:nowrap; min-width:64px; text-align:center;}
+  .cb-delta i.good{color:var(--gr-green); background:color-mix(in srgb, var(--gr-green) 15%, var(--surface));}
+  .cb-delta i.bad{color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 17%, var(--surface));}
+  .cb-delta i.flat{color:var(--text-muted); background:var(--surface-2);}
+  .cb-zero summary{cursor:default !important;} .cb-zero .arrow{visibility:hidden;}
+  @media (max-width:760px){ .pcmp .cb-delta{order:4; width:100%; justify-content:flex-start;} }
+</style>
 <style id="polish3">
   /* Sanket's verdict */
   .vd{background:var(--surface); border:1.5px solid var(--gold); border-radius:22px; box-shadow:var(--shadow); padding:32px 32px 30px; display:flex; flex-direction:column; gap:30px;}
@@ -389,26 +409,6 @@
   @media (max-width:760px){
     .vd{padding:24px 20px;} .vd-sub,.vd-keep{grid-template-columns:1fr;} .vd-item{grid-template-columns:28px minmax(0,1fr);}
   }
-</style>
-<style id="polish4">
-  /* September comparison on the aggregate pattern bars */
-  .pc-legend{display:flex; flex-wrap:wrap; align-items:center; gap:8px 22px; font-size:12.5px; color:var(--text-muted); padding:4px 2px 14px;}
-  .pc-legend span{display:inline-flex; align-items:center; gap:8px;}
-  .pc-legend i{display:inline-block; width:22px; height:8px; border-radius:999px; background:var(--accent);}
-  .pc-legend i.s{height:5px; background:var(--border-strong);}
-  .pc-legend .pc-note{margin-left:auto; color:var(--text-faint);}
-  .pcmp .cb-track{height:auto !important; background:transparent !important; display:flex; flex-direction:column; gap:5px; overflow:visible !important;}
-  .pcmp .cb-fill{height:10px !important; background:var(--cb-c) !important; border-radius:999px;}
-  .pcmp .cb-sept{height:5px; border-radius:999px; background:var(--border-strong);}
-  .pcmp .cb-count{font-family:"Inter Tight","Inter",sans-serif !important; font-size:15px !important; font-weight:700 !important; color:var(--text) !important;}
-  .cb-delta{display:flex; align-items:center; justify-content:flex-end; gap:10px; width:168px; flex-shrink:0;}
-  .cb-delta em{font-style:normal; font-size:12px; color:var(--text-faint); font-weight:600; white-space:nowrap;}
-  .cb-delta i{font-style:normal; font-size:12px; font-weight:700; border-radius:999px; padding:4px 10px; white-space:nowrap; min-width:64px; text-align:center;}
-  .cb-delta i.good{color:var(--gr-green); background:color-mix(in srgb, var(--gr-green) 15%, var(--surface));}
-  .cb-delta i.bad{color:var(--gr-red); background:color-mix(in srgb, var(--gr-red) 17%, var(--surface));}
-  .cb-delta i.flat{color:var(--text-muted); background:var(--surface-2);}
-  .cb-zero summary{cursor:default !important;} .cb-zero .arrow{visibility:hidden;}
-  @media (max-width:760px){ .pcmp .cb-delta{order:4; width:100%; justify-content:flex-start;} }
 </style>
 </head>
 <body>
@@ -695,10 +695,10 @@
           <div class="vd-sub"><div><b>When it works</b>Movie grade.</div><div><b>When it doesn't</b>Plasticky, like ChatGPT images that are obviously AI.</div></div>
           <div class="vd-d">I'm not sure why it happens. His AI is usually good, so if the skill is there, why doesn't it show in all of them? Before sending V1, check whether it reads as AI and whether it looks realistic, and refine it, so the video clears in the first round.</div>
         </div>
-        <div class="vd-item"><span class="vd-n">02</span><div class="vd-t">Information overload and too much stimulation</div>
-          <div class="vd-d">On one of the Nigel videos there was too much on screen.</div>
-          <div class="vd-sub"><div><b>Animated icons</b>Several on the screen at once.</div><div><b>Rough edges</b>Too evident.</div></div>
-          <div class="vd-d">I want him to build an eye for this, so he can tell for himself that it's too much and tone it down. That should cut the rounds of feedback and make the work easier for everyone.</div>
+        <div class="vd-item"><span class="vd-n">02</span><div class="vd-t">See the video through the viewer's eyes</div>
+          <div class="vd-d">The core thing to fix is that he sees the video as an editor, not as a viewer. Information overload and too much stimulation is just one instance of it.</div>
+          <div class="vd-sub"><div><b>Animated icons</b>On one of the Nigel videos, several on the screen at once.</div><div><b>Rough edges</b>Too evident.</div></div>
+          <div class="vd-d">I want him to build an eye for this, so he can tell for himself when it's too much and tone it down. That should cut the rounds of feedback and make the work easier for everyone.</div>
         </div>
       </div>
     </div>
